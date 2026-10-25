@@ -465,17 +465,218 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
   table.group-summary td:first-child{font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:7px;margin-bottom:4px}
   table.group-summary td.num{direction:rtl;text-align:left}
 }
+
+/* ---------- مدال انتخاب زبان (Language Modal) ---------- */
+.lang-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 15, 20, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.lang-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lang-modal-box {
+  background: var(--panel);
+  border: 1.5px solid var(--border-lit);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--accent-dim);
+  text-align: center;
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lang-modal-overlay.active .lang-modal-box {
+  transform: translateY(0) scale(1);
+}
+.lang-modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px var(--accent-dim);
+}
+.lang-modal-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.lang-modal-title {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.lang-modal-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.lang-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.lang-opt-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 10px;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.22s ease;
+}
+.lang-opt-btn .flag {
+  font-size: 24px;
+  line-height: 1;
+}
+.lang-opt-btn .lang-name {
+  font-size: 13.5px;
+}
+.lang-opt-btn .lang-sub {
+  font-size: 10px;
+  color: var(--muted);
+}
+.lang-opt-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--accent-dim);
+}
+.lang-opt-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.lang-modal-action {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+/* LTR styles */
+html[dir="ltr"] {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+html[dir="ltr"] body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+html[dir="ltr"] table.loads th,
+html[dir="ltr"] table.result th,
+html[dir="ltr"] table.group-summary th {
+  text-align: left;
+}
+html[dir="ltr"] td.name-cell input {
+  text-align: left;
+  font-family: "Segoe UI", sans-serif;
+}
+html[dir="ltr"] table.loads td {
+  text-align: left;
+}
+html[dir="ltr"] .tooltip-pop {
+  text-align: left;
+}
+html[dir="ltr"] .toast {
+  border-right: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+}
+html[dir="ltr"] .toast.warn { border-left-color: var(--warn); }
+html[dir="ltr"] .toast.err { border-left-color: var(--danger); }
+html[dir="ltr"] .pick .p-main {
+  text-align: left;
+}
+html[dir="ltr"] table.result td.num,
+html[dir="ltr"] table.group-summary td.num {
+  text-align: left;
+}
+html[dir="ltr"] #printSummary thead th {
+  text-align: left;
+}
+html[dir="ltr"] #printSummary td.v {
+  text-align: right;
+}
+
 </style>
 </head>
 <body>
+
+  <!-- مدال انتخاب زبان (Language Modal) -->
+  <div id="langModal" class="lang-modal-overlay">
+    <div class="lang-modal-box">
+      <div class="lang-modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+      </div>
+      <h2 class="lang-modal-title" id="mTitle">انتخاب زبان / Select Language</h2>
+      <p class="lang-modal-sub" id="mSub">لطفاً زبان مورد نظر خود را برای شروع انتخاب کنید:</p>
+      <div class="lang-options-grid">
+        <button type="button" class="lang-opt-btn selected" data-code="fa">
+          <span class="flag">🇮🇷</span>
+          <span class="lang-name">فارسی</span>
+          <span class="lang-sub">Persian</span>
+        </button>
+        <button type="button" class="lang-opt-btn" data-code="en">
+          <span class="flag">🇬🇧</span>
+          <span class="lang-name">English</span>
+          <span class="lang-sub">انگلیسی</span>
+        </button>
+        <button type="button" class="lang-opt-btn" data-code="fr">
+          <span class="flag">🇫🇷</span>
+          <span class="lang-name">Français</span>
+          <span class="lang-sub">فرانسوی</span>
+        </button>
+        <button type="button" class="lang-opt-btn" data-code="ar">
+          <span class="flag">🇸🇦</span>
+          <span class="lang-name">العربية</span>
+          <span class="lang-sub">عربی</span>
+        </button>
+      </div>
+      <button type="button" class="btn primary lang-modal-action" id="btnConfirmLang">
+        <span id="mConfirm">تأیید و ورود</span>
+      </button>
+    </div>
+  </div>
+
 
   <header class="top">
     <div class="brand">
       <div class="logo">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
       </div>
-      <h1>محاسبه‌گر تابلو برق صنعتی
-        <small>جریان فازها، بالانس بار، نول، سایزینگ کابل و کلید حفاظتی — بر مبنای IEC 60364</small>
+      <h1 id="headTitle">محاسبه‌گر تابلو برق صنعتی
+        <small id="headSub">جریان فازها، بالانس بار، نول، سایزینگ کابل و کلید حفاظتی — بر مبنای IEC 60364</small>
       </h1>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center" class="no-print">
@@ -483,6 +684,14 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
         بازگشت
       </a>
+            <button class="btn" id="btnLang" title="تغییر زبان / Change Language" aria-label="تغییر زبان">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span id="langLabel">فارسی</span>
+      </button>
       <button class="btn" id="btnMode" title="تغییر حالت ساده / پیشرفته" aria-label="حالت ساده / پیشرفته">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span id="modeLabel">حالت: پیشرفته</span>
@@ -494,11 +703,11 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
       </button>
       <button class="btn primary" id="btnCalc" title="اجرای مجدد محاسبات">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-        محاسبه
+        <span id="txtCalc">محاسبه</span>
       </button>
       <button class="btn" id="btnPrint" title="چاپ / ذخیره PDF گزارش">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        چاپ / PDF
+        <span id="txtPrint">چاپ / PDF</span>
       </button>
     </div>
   </header>
@@ -508,7 +717,7 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
     <div class="ph-top">
       <svg class="ph-logo" viewBox="0 0 24 24" fill="#000" stroke="none"><rect x="0" y="0" width="24" height="24" rx="5" fill="none"/><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
       <div>
-        <h1>گزارش محاسبات تابلو برق</h1>
+        <h1 id="printReportHeading">گزارش محاسبات تابلو برق</h1>
         <div class="pdate">تاریخ گزارش: <span id="printDate"></span> — مبنای محاسبه: IEC 60364-5-52 | سیستم 400/230V، 50Hz</div>
       </div>
     </div>
@@ -517,76 +726,76 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
 
   <!-- پارامترهای عمومی -->
   <section class="card">
-    <h2>پارامترهای عمومی پروژه<button type="button" class="help" data-tip="تنظیمات سراسری محاسبات: طول مسیر، سقف افت ولتاژ، جنس هادی و شرایط نصب که روی همه مدارها اعمال می‌شود." aria-label="راهنما">؟</button></h2>
+    <h2 id="titleGlobals">پارامترهای عمومی پروژه<button type="button" class="help" id="tipGlobals" data-tip="تنظیمات سراسری محاسبات: طول مسیر، سقف افت ولتاژ، جنس هادی و شرایط نصب که روی همه مدارها اعمال می‌شود." aria-label="راهنما">؟</button></h2>
     <div class="globals">
       <div class="field">
-        <label for="gLength">طول مسیر کابل ورودی تابلو<button type="button" class="help" data-tip="طول مسیر کابل اصلی تغذیه تابلو بر حسب متر؛ مبنای محاسبه افت ولتاژ و سایز کابل اصلی تابلو است." aria-label="راهنما">؟</button></label>
+        <label for="gLength" id="lblLength">طول مسیر کابل ورودی تابلو<button type="button" class="help" id="tipLength" data-tip="طول مسیر کابل اصلی تغذیه تابلو بر حسب متر؛ مبنای محاسبه افت ولتاژ و سایز کابل اصلی تابلو است." aria-label="راهنما">؟</button></label>
         <input type="number" id="gLength" value="20" min="0" step="any">
-        <span class="unit">متر</span>
+        <span class="unit" id="unitLength">متر</span>
       </div>
       <div class="field">
-        <label for="gVd">افت ولتاژ مجاز<button type="button" class="help" data-tip="سقف مجاز افت ولتاژ بر حسب درصد؛ شرط تعیین‌کننده در انتخاب مقطع کابل (معمولاً ۳ تا ۵٪)." aria-label="راهنما">؟</button></label>
+        <label for="gVd" id="lblVd">افت ولتاژ مجاز<button type="button" class="help" id="tipVd" data-tip="سقف مجاز افت ولتاژ بر حسب درصد؛ شرط تعیین‌کننده در انتخاب مقطع کابل (معمولاً ۳ تا ۵٪)." aria-label="راهنما">؟</button></label>
         <input type="number" id="gVd" value="5" min="0.5" max="15" step="0.5">
-        <span class="unit">درصد</span>
+        <span class="unit" id="unitVd">درصد</span>
       </div>
       <div class="field">
-        <label for="gCond">جنس هادی<button type="button" class="help" data-tip="مس رسانایی بالاتری دارد و مقطع کوچک‌تری می‌خواهد؛ آلومینیوم ارزان‌تر است اما برای همان جریان مقطع بزرگ‌تری لازم دارد." aria-label="راهنما">؟</button></label>
+        <label for="gCond" id="lblCond">جنس هادی<button type="button" class="help" id="tipCond" data-tip="مس رسانایی بالاتری دارد و مقطع کوچک‌تری می‌خواهد؛ آلومینیوم ارزان‌تر است اما برای همان جریان مقطع بزرگ‌تری لازم دارد." aria-label="راهنما">؟</button></label>
         <select id="gCond">
-          <option value="cu" selected>مس (Cu)</option>
-          <option value="al">آلومینیوم (Al)</option>
+          <option value="cu" id="optCu" selected>مس (Cu)</option>
+          <option value="al" id="optAl">آلومینیوم (Al)</option>
         </select>
-        <span class="unit">مطابق جداول IEC 60364-5-52</span>
+        <span class="unit" id="unitCond">مطابق جداول IEC 60364-5-52</span>
       </div>
       <div class="field adv-field">
-        <label for="gTemp">دمای محیط<button type="button" class="help" data-tip="دمای محیط نصب کابل؛ جریان مجاز با ضریب تصحیح دمایی نسبت به پایه ۳۰ درجه اصلاح می‌شود." aria-label="راهنما">؟</button></label>
+        <label for="gTemp" id="lblTemp">دمای محیط<button type="button" class="help" id="tipTemp" data-tip="دمای محیط نصب کابل؛ جریان مجاز با ضریب تصحیح دمایی نسبت به پایه ۳۰ درجه اصلاح می‌شود." aria-label="راهنما">؟</button></label>
         <select id="gTemp">
           <option value="10">10°C</option><option value="15">15°C</option>
           <option value="20">20°C</option><option value="25">25°C</option>
-          <option value="30" selected>30°C (استاندارد)</option><option value="35">35°C</option>
+          <option value="30" id="optTemp30" selected>30°C (استاندارد)</option><option value="35">35°C</option>
           <option value="40">40°C</option><option value="45">45°C</option>
           <option value="50">50°C</option><option value="55">55°C</option><option value="60">60°C</option>
         </select>
-        <span class="unit">عایق PVC — پایه 30 درجه</span>
+        <span class="unit" id="unitTemp">عایق PVC — پایه 30 درجه</span>
       </div>
       <div class="field adv-field">
-        <label for="gMethod">روش نصب<button type="button" class="help" data-tip="شیوه نصب کابل (کلیپس روی دیوار، داخل لوله، دفنی و...)؛ هر روش ضریب تصحیح متفاوتی روی جریان مجاز دارد." aria-label="راهنما">؟</button></label>
+        <label for="gMethod" id="lblMethod">روش نصب<button type="button" class="help" id="tipMethod" data-tip="شیوه نصب کابل (کلیپس روی دیوار، داخل لوله، دفنی و...)؛ هر روش ضریب تصحیح متفاوتی روی جریان مجاز دارد." aria-label="راهنما">؟</button></label>
         <select id="gMethod">
-          <option value="1.00" selected>C — کابل روی دیوار / نردبان کابلی</option>
-          <option value="0.90">E — کابل در هوا / سینی سوراخ‌دار</option>
-          <option value="0.85">B2 — داخل لوله روی دیوار</option>
-          <option value="0.80">D2 — دفنی مستقیم در زمین</option>
-          <option value="0.78">B1 — داخل لوله توکار در دیوار</option>
-          <option value="0.75">D1 — دفنی در لوله در زمین</option>
+          <option value="1.00" id="optMethodC" selected>C — کابل روی دیوار / نردبان کابلی</option>
+          <option value="0.90" id="optMethodE">E — کابل در هوا / سینی سوراخ‌دار</option>
+          <option value="0.85" id="optMethodB2">B2 — داخل لوله روی دیوار</option>
+          <option value="0.80" id="optMethodD2">D2 — دفنی مستقیم در زمین</option>
+          <option value="0.78" id="optMethodB1">B1 — داخل لوله توکار در دیوار</option>
+          <option value="0.75" id="optMethodD1">D1 — دفنی در لوله در زمین</option>
         </select>
-        <span class="unit">ضریب تصحیح روش نصب</span>
+        <span class="unit" id="unitMethod">ضریب تصحیح روش نصب</span>
       </div>
       <div class="field adv-field">
-        <label for="gGroup">ضریب هم‌آرایی مدارها<button type="button" class="help" data-tip="اگر چند مدار مجاور هم نصب می‌شوند، عددی کمتر از ۱ بدهید (مثلاً ۰.۸) تا اثر گرمایی مدارهای مجاور لحاظ شود." aria-label="راهنما">؟</button></label>
+        <label for="gGroup" id="lblGroup">ضریب هم‌آرایی مدارها<button type="button" class="help" id="tipGroup" data-tip="اگر چند مدار مجاور هم نصب می‌شوند، عددی کمتر از ۱ بدهید (مثلاً ۰.۸) تا اثر گرمایی مدارهای مجاور لحاظ شود." aria-label="راهنما">؟</button></label>
         <input type="number" id="gGroup" value="1" min="0.5" max="1" step="0.05">
-        <span class="unit">Grouping Factor</span>
+        <span class="unit" id="unitGroup">Grouping Factor</span>
       </div>
     </div>
   </section>
 
   <!-- لیست مصرف‌کننده‌ها -->
   <section class="card">
-    <h2>لیست مصرف‌کننده‌ها<button type="button" class="help" data-tip="توان یا جریان هر بار و مشخصاتش را وارد کنید؛ بالانس فازها، ردیف‌های تابلو، کابل و کلید حفاظتی به‌صورت زنده محاسبه می‌شود." aria-label="راهنما">؟</button></h2>
+    <h2 id="titleLoads">لیست مصرف‌کننده‌ها<button type="button" class="help" id="tipLoads" data-tip="توان یا جریان هر بار و مشخصاتش را وارد کنید؛ بالانس فازها، ردیف‌های تابلو، کابل و کلید حفاظتی به‌صورت زنده محاسبه می‌شود." aria-label="راهنما">؟</button></h2>
     <div class="tbl-scroll">
       <table class="loads">
         <thead>
           <tr>
             <th>#</th>
-            <th>نام / عنوان<button type="button" class="help" data-tip="عنوان دلخواه مصرف‌کننده (اختیاری)؛ در جدول تخصیص فازها و گزارش چاپی نمایش داده می‌شود." aria-label="راهنما">؟</button></th>
-            <th>ردیف تابلو<button type="button" class="help" data-tip="ردیف یا گروه این مصرف‌کننده در تابلو برق (مثلاً: ردیف ۱، ردیف ۲ یا فیدر روشنایی)؛ توان، جریان و متراژ کابل هر ردیف تجمیع می‌شود." aria-label="راهنما">؟</button></th>
-            <th>طول کابل (متر)<button type="button" class="help" data-tip="فاصله این مصرف‌کننده تا تابلو برق بر حسب متر برای محاسبه دقیق مقطع کابل خود این المان و مجموع متراژ ردیف." aria-label="راهنما">؟</button></th>
-            <th>نوع ورودی<button type="button" class="help" data-tip="واحد ستون «مقدار»: کیلووات (تبدیل خودکار به آمپر بر اساس فرمول‌های استاندارد) یا آمپر (جریان اندازه‌گیری‌شده)." aria-label="راهنما">؟</button></th>
-            <th>مقدار<button type="button" class="help" data-tip="عدد توان یا جریان بسته به ستون قبل؛ ضرایب هم‌زمانی و تقاضا در آن ضرب می‌شوند." aria-label="راهنما">؟</button></th>
-            <th>فاز مصرف‌کننده<button type="button" class="help" data-tip="نحوه اتصال بار: تک‌فاز فاز-نول، دوفاز بین دو فاز (بهترین جفت خودکار انتخاب می‌شود) یا سه‌فاز متوازن." aria-label="راهنما">؟</button></th>
-            <th>نوع بار<button type="button" class="help" data-tip="موتوری/سلفی: cosφ=0.8 و η=0.85 | مقاومتی/حرارتی: هر دو 1 | سفارشی: ورود دستی ضرایب." aria-label="راهنما">؟</button></th>
-            <th class="adv-col">cosφ<button type="button" class="help" data-tip="ضریب توان بار؛ بر مقدار جریان، زاویه فازور جریان و افت ولتاژ اثر می‌گذارد. پیش‌فرض از نوع بار می‌آید." aria-label="راهنما">؟</button></th>
-            <th class="adv-col">η (راندمان)<button type="button" class="help" data-tip="راندمان دستگاه در تبدیل توان (مثلاً توان شفت موتور) به جریان ورودی؛ برای بار مقاومتی 1 است." aria-label="راهنما">؟</button></th>
-            <th class="adv-col">ks هم‌زمانی<button type="button" class="help" data-tip="ضریب هم‌زمانی: کسری از بار که هم‌زمان با سایر بارها روشن است (0.7 یعنی 70٪ زمان)." aria-label="راهنما">؟</button></th>
-            <th class="adv-col">kd تقاضا<button type="button" class="help" data-tip="ضریب تقاضا: بیشینه سهم واقعی بار از توان نامی‌اش در سیکل کاری؛ پیش‌فرض 1." aria-label="راهنما">؟</button></th>
+            <th id="thName">نام / عنوان<button type="button" class="help" id="tipThName" data-tip="عنوان دلخواه مصرف‌کننده (اختیاری)؛ در جدول تخصیص فازها و گزارش چاپی نمایش داده می‌شود." aria-label="راهنما">؟</button></th>
+            <th id="thGroup">ردیف تابلو<button type="button" class="help" id="tipThGroup" data-tip="ردیف یا گروه این مصرف‌کننده در تابلو برق (مثلاً: ردیف ۱، ردیف ۲ یا فیدر روشنایی)؛ توان، جریان و متراژ کابل هر ردیف تجمیع می‌شود." aria-label="راهنما">؟</button></th>
+            <th id="thLen">طول کابل (متر)<button type="button" class="help" id="tipThLen" data-tip="فاصله این مصرف‌کننده تا تابلو برق بر حسب متر برای محاسبه دقیق مقطع کابل خود این المان و مجموع متراژ ردیف." aria-label="راهنما">؟</button></th>
+            <th id="thItype">نوع ورودی<button type="button" class="help" id="tipThItype" data-tip="واحد ستون «مقدار»: کیلووات (تبدیل خودکار به آمپر بر اساس فرمول‌های استاندارد) یا آمپر (جریان اندازه‌گیری‌شده)." aria-label="راهنما">؟</button></th>
+            <th id="thValue">مقدار<button type="button" class="help" id="tipThValue" data-tip="عدد توان یا جریان بسته به ستون قبل؛ ضرایب هم‌زمانی و تقاضا در آن ضرب می‌شوند." aria-label="راهنما">؟</button></th>
+            <th id="thPhase">فاز مصرف‌کننده<button type="button" class="help" id="tipThPhase" data-tip="نحوه اتصال بار: تک‌فاز فاز-نول، دوفاز بین دو فاز (بهترین جفت خودکار انتخاب می‌شود) یا سه‌فاز متوازن." aria-label="راهنما">؟</button></th>
+            <th id="thLtype">نوع بار<button type="button" class="help" id="tipThLtype" data-tip="موتوری/سلفی: cosφ=0.8 و η=0.85 | مقاومتی/حرارتی: هر دو 1 | سفارشی: ورود دستی ضرایب." aria-label="راهنما">؟</button></th>
+            <th class="adv-col" id="thPf">cosφ<button type="button" class="help" id="tipThPf" data-tip="ضریب توان بار؛ بر مقدار جریان، زاویه فازور جریان و افت ولتاژ اثر می‌گذارد. پیش‌فرض از نوع بار می‌آید." aria-label="راهنما">؟</button></th>
+            <th class="adv-col" id="thEta">η (راندمان)<button type="button" class="help" id="tipThEta" data-tip="راندمان دستگاه در تبدیل توان (مثلاً توان شفت موتور) به جریان ورودی؛ برای بار مقاومتی 1 است." aria-label="راهنما">؟</button></th>
+            <th class="adv-col" id="thKs">ks هم‌زمانی<button type="button" class="help" id="tipThKs" data-tip="ضریب هم‌زمانی: کسری از بار که هم‌زمان با سایر بارها روشن است (0.7 یعنی 70٪ زمان)." aria-label="راهنما">؟</button></th>
+            <th class="adv-col" id="thKd">kd تقاضا<button type="button" class="help" id="tipThKd" data-tip="ضریب تقاضا: بیشینه سهم واقعی بار از توان نامی‌اش در سیکل کاری؛ پیش‌فرض 1." aria-label="راهنما">؟</button></th>
             <th></th>
           </tr>
         </thead>
@@ -597,41 +806,953 @@ table.group-summary td.num{font-family:var(--mono);direction:ltr;text-align:righ
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
         <button class="btn primary no-print" id="btnAdd">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
-          افزودن مصرف‌کننده
+          <span id="txtAdd">افزودن مصرف‌کننده</span>
         </button>
         <button class="btn-danger-outline no-print" id="btnClearAll" title="پاک‌سازی کامل لیست مصرف‌کننده‌ها">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-          پاک‌سازی همه
+          <span id="txtClearAll">پاک‌سازی همه</span>
         </button>
       </div>
-      <span class="hint">در حالت ساده، پارامترهای پیشرفته (دما، روش نصب، ضرایب تصحیح) به‌طور خودکار و بهینه‌شده تنظیم می‌شوند.</span>
+      <span class="hint" id="hintLoads">در حالت ساده، پارامترهای پیشرفته (دما، روش نصب، ضرایب تصحیح) به‌طور خودکار و بهینه‌شده تنظیم می‌شوند.</span>
     </div>
   </section>
 
   <!-- نتایج -->
   <section class="card">
-    <h2>نتایج محاسبات<button type="button" class="help" data-tip="خروجی نهایی بر اساس مقادیر فعلی: جریان فازها، نول، عدم تعادل، کابل و کلید حفاظتی پیشنهادی." aria-label="راهنما">؟</button></h2>
+    <h2 id="titleResults">نتایج محاسبات<button type="button" class="help" id="tipResults" data-tip="خروجی نهایی بر اساس مقادیر فعلی: جریان فازها، نول، عدم تعادل، کابل و کلید حفاظتی پیشنهادی." aria-label="راهنما">؟</button></h2>
     <table id="printSummary">
-      <thead><tr><th colspan="2">خلاصه نتایج محاسبات</th></tr></thead>
+      <thead><tr><th colspan="2" id="summaryHeadText">خلاصه نتایج محاسبات</th></tr></thead>
       <tbody id="printSummaryBody"></tbody>
     </table>
     <div id="results"></div>
   </section>
 
   <footer class="notes">
-    <b>مبانی محاسباتی:</b>
-    تبدیل توان به جریان: تک‌فاز <span dir="ltr">I = P/(V·cosφ·η)</span> ، دوفاز <span dir="ltr">I = P/(V_LL·cosφ·η)</span> ، سه‌فاز <span dir="ltr">I = P/(√3·V_LL·cosφ·η)</span> |
+    <b id="notesTitle">مبانی محاسباتی:</b>
+    <span id="notesText">تبدیل توان به جریان: تک‌فاز <span dir="ltr">I = P/(V·cosφ·η)</span> ، دوفاز <span dir="ltr">I = P/(V_LL·cosφ·η)</span> ، سه‌فاز <span dir="ltr">I = P/(√3·V_LL·cosφ·η)</span> |
     افت ولتاژ: <span dir="ltr">ΔU% = b·I·L·(R·cosφ + X·sinφ)</span> (b=1 برای سیستم سه‌فاز، b=2 برای تک‌فاز) |
     مقاومت اهمی در دمای کار: مس <span dir="ltr">ρ=0.0225</span> و آلومینیوم <span dir="ltr">ρ=0.034</span> Ω·mm²/m ، راکتانس کابل <span dir="ltr">X=0.08</span> Ω/km |
     جریان نول از جمع برداری (فازوری) جریان‌ها با احتساب زاویه فاز هر مصرف‌کننده محاسبه می‌شود |
     انتخاب کابل: شرط <span dir="ltr">I_B ≤ I_n ≤ I_Z</span> با ضرایب تصحیح دما، روش نصب و هم‌آرایی |
     سیم نول هم‌مقطع فازها (مقاوم در برابر هارمونیک) و هادی ارت طبق جدول IEC 60364-5-54 |
-    نتایج این ابزار جنبه محاسباتی/مهندسی دارد و پیش از اجرا باید توسط مهندس ناظر تأیید شود.
+    نتایج این ابزار جنبه محاسباتی/مهندسی دارد و پیش از اجرا باید توسط مهندس ناظر تأیید شود.</span>
   </footer>
 </div>
 
 <script>
 "use strict";
+
+/* ================= بین‌المللی‌سازی (i18n) و ۴ زبان ================= */
+const TRANSLATIONS = {
+  "fa": {
+    "dir": "rtl",
+    "name": "فارسی",
+    "title": "محاسبه‌گر تابلو برق | جریان، بالانس فاز، کابل و کلید حفاظتی",
+    "headerTitle": "محاسبه‌گر تابلو برق صنعتی",
+    "headerSub": "جریان فازها، بالانس بار، نول، سایزینگ کابل و کلید حفاظتی — بر مبنای IEC 60364",
+    "btnLang": "زبان / Language",
+    "modeSimple": "حالت: ساده",
+    "modeAdvanced": "حالت: پیشرفته",
+    "themeLight": "تم روشن",
+    "themeDark": "تم تیره",
+    "btnCalc": "محاسبه",
+    "btnPrint": "چاپ / PDF",
+    "printReportTitle": "گزارش محاسبات تابلو برق",
+    "printReportDate": "تاریخ گزارش: {date} — مبنای محاسبه: IEC 60364-5-52 | سیستم 400/230V، 50Hz",
+    "globalParamsTitle": "پارامترهای عمومی پروژه",
+    "helpGlobalParams": "تنظیمات سراسری محاسبات: طول مسیر، سقف افت ولتاژ، جنس هادی و شرایط نصب که روی همه مدارها اعمال می‌شود.",
+    "lengthLabel": "طول مسیر کابل ورودی تابلو",
+    "helpLength": "طول مسیر کابل اصلی تغذیه تابلو بر حسب متر؛ مبنای محاسبه افت ولتاژ و سایز کابل اصلی تابلو است.",
+    "meter": "متر",
+    "vdLabel": "افت ولتاژ مجاز",
+    "helpVd": "سقف مجاز افت ولتاژ بر حسب درصد؛ شرط تعیین‌کننده در انتخاب مقطع کابل (معمولاً ۳ تا ۵٪).",
+    "percent": "درصد",
+    "condLabel": "جنس هادی",
+    "helpCond": "مس رسانایی بالاتری دارد و مقطع کوچک‌تری می‌خواهد؛ آلومینیوم ارزان‌تر است اما برای همان جریان مقطع بزرگ‌تری لازم دارد.",
+    "condCu": "مس (Cu)",
+    "condAl": "آلومینیوم (Al)",
+    "condStandard": "مطابق جداول IEC 60364-5-52",
+    "tempLabel": "دمای محیط",
+    "helpTemp": "دمای محیط نصب کابل؛ جریان مجاز با ضریب تصحیح دمایی نسبت به پایه ۳۰ درجه اصلاح می‌شود.",
+    "tempStandard": "30°C (استاندارد)",
+    "tempSub": "عایق PVC — پایه 30 درجه",
+    "methodLabel": "روش نصب",
+    "helpMethod": "شیوه نصب کابل (کلیپس روی دیوار، داخل لوله، دفنی و...)؛ هر روش ضریب تصحیح متفاوتی روی جریان مجاز دارد.",
+    "methodC": "C — کابل روی دیوار / نردبان کابلی",
+    "methodE": "E — کابل در هوا / سینی سوراخ‌دار",
+    "methodB2": "B2 — داخل لوله روی دیوار",
+    "methodD2": "D2 — دفنی مستقیم در زمین",
+    "methodB1": "B1 — داخل لوله توکار در دیوار",
+    "methodD1": "D1 — دفنی در لوله در زمین",
+    "methodSub": "ضریب تصحیح روش نصب",
+    "groupLabel": "ضریب هم‌آرایی مدارها",
+    "helpGroup": "اگر چند مدار مجاور هم نصب می‌شوند، عددی کمتر از ۱ بدهید (مثلاً ۰.۸) تا اثر گرمایی مدارهای مجاور لحاظ شود.",
+    "groupSub": "Grouping Factor",
+    "loadsListTitle": "لیست مصرف‌کننده‌ها",
+    "helpLoadsList": "توان یا جریان هر بار و مشخصاتش را وارد کنید؛ بالانس فازها، ردیف‌های تابلو، کابل و کلید حفاظتی به‌صورت زنده محاسبه می‌شود.",
+    "thIdx": "#",
+    "thName": "نام / عنوان",
+    "helpThName": "عنوان دلخواه مصرف‌کننده (اختیاری)؛ در جدول تخصیص فازها و گزارش چاپی نمایش داده می‌شود.",
+    "thGroup": "ردیف تابلو",
+    "helpThGroup": "ردیف یا گروه این مصرف‌کننده در تابلو برق (مثلاً: ردیف ۱، ردیف ۲ یا فیدر روشنایی)؛ توان، جریان و متراژ کابل هر ردیف تجمیع می‌شود.",
+    "thLen": "طول کابل (متر)",
+    "helpThLen": "فاصله این مصرف‌کننده تا تابلو برق بر حسب متر برای محاسبه دقیق مقطع کابل خود این المان و مجموع متراژ ردیف.",
+    "thItype": "نوع ورودی",
+    "helpThItype": "واحد ستون «مقدار»: کیلووات (تبدیل خودکار به آمپر بر اساس فرمول‌های استاندارد) یا آمپر (جریان اندازه‌گیری‌شده).",
+    "thValue": "مقدار",
+    "helpThValue": "عدد توان یا جریان بسته به ستون قبل؛ ضرایب هم‌زمانی و تقاضا در آن ضرب می‌شوند.",
+    "thPhase": "فاز مصرف‌کننده",
+    "helpThPhase": "نحوه اتصال بار: تک‌فاز فاز-نول، دوفاز بین دو فاز (بهترین جفت خودکار انتخاب می‌شود) یا سه‌فاز متوازن.",
+    "thLtype": "نوع بار",
+    "helpThLtype": "موتوری/سلفی: cosφ=0.8 و η=0.85 | مقاومتی/حرارتی: هر دو 1 | سفارشی: ورود دستی ضرایب.",
+    "thPf": "cosφ",
+    "helpThPf": "ضریب توان بار؛ بر مقدار جریان، زاویه فازور جریان و افت ولتاژ اثر می‌گذارد. پیش‌فرض از نوع بار می‌آید.",
+    "thEta": "η (راندمان)",
+    "helpThEta": "راندمان دستگاه در تبدیل توان (مثلاً توان شفت موتور) به جریان ورودی؛ برای بار مقاومتی 1 است.",
+    "thKs": "ks هم‌زمانی",
+    "helpThKs": "ضریب هم‌زمانی: کسری از بار که هم‌زمان با سایر بارها روشن است (0.7 یعنی 70٪ زمان).",
+    "thKd": "kd تقاضا",
+    "helpThKd": "ضریب تقاضا: بیشینه سهم واقعی بار از توان نامی‌اش در سیکل کاری؛ پیش‌فرض 1.",
+    "btnAdd": "افزودن مصرف‌کننده",
+    "btnClearAll": "پاک‌سازی همه",
+    "hintLoads": "در حالت ساده، پارامترهای پیشرفته (دما، روش نصب، ضرایب تصحیح) به‌طور خودکار و بهینه‌شده تنظیم می‌شوند.",
+    "resultsTitle": "نتایج محاسبات",
+    "helpResults": "خروجی نهایی بر اساس مقادیر فعلی: جریان فازها، نول، عدم تعادل، کابل و کلید حفاظتی پیشنهادی.",
+    "printSummaryHead": "خلاصه نتایج محاسبات",
+    "notesTitle": "مبانی محاسباتی:",
+    "notesText": "تبدیل توان به جریان: تک‌فاز I = P/(V·cosφ·η) ، دوفاز I = P/(V_LL·cosφ·η) ، سه‌فاز I = P/(√3·V_LL·cosφ·η) | افت ولتاژ: ΔU% = b·I·L·(R·cosφ + X·sinφ) (b=1 برای سیستم سه‌فاز، b=2 برای تک‌فاز) | مقاومت اهمی در دمای کار: مس ρ=0.0225 و آلومینیوم ρ=0.034 Ω·mm²/m ، راکتانس کابل X=0.08 Ω/km | جریان نول از جمع برداری (فازوری) جریان‌ها با احتساب زاویه فاز هر مصرف‌کننده محاسبه می‌شود | انتخاب کابل: شرط I_B ≤ I_n ≤ I_Z با ضرایب تصحیح دما، روش نصب و هم‌آرایی | سیم نول هم‌مقطع فازها (مقاوم در برابر هارمونیک) و هادی ارت طبق جدول IEC 60364-5-54 | نتایج این ابزار جنبه محاسباتی/مهندسی دارد و پیش از اجرا باید توسط مهندس ناظر تأیید شود.",
+    "optKw": "کیلووات (kW)",
+    "optA": "آمپر (A)",
+    "opt1p": "تک‌فاز ۲۳۰V",
+    "opt2p": "دوفاز ۴۰۰V",
+    "opt3p": "سه‌فاز ۴۰۰V",
+    "optMotor": "موتوری / سلفی",
+    "optResistive": "مقاومتی / حرارتی",
+    "optCustom": "سفارشی",
+    "rowPlaceholder": "ردیف ۱",
+    "loadPlaceholder": "مصرف‌کننده {n}",
+    "defaultGroup": "ردیف عمومی",
+    "groupPrefix": "ردیف ",
+    "btnDelTitle": "حذف ردیف",
+    "confirmClear": "آیا از پاک‌سازی تمام مصرف‌کننده‌ها اطمینان دارید؟",
+    "toastAdded": "مصرف‌کننده جدید به لیست اضافه شد.",
+    "toastDeleted": "ردیف مصرف‌کننده حذف شد.",
+    "toastMinRows": "وجود حداقل یک مصرف‌کننده در لیست اجباری است؛ آخرین ردیف قابل حذف نیست.",
+    "toastCleared": "تمام مصرف‌کننده‌ها پاک‌سازی شدند.",
+    "toastModeSwitched": "حالت محاسبه به «{mode}» تغییر یافت.",
+    "toastCalcSuccess": "محاسبات با موفقیت انجام و نتایج به‌روزرسانی شد.",
+    "toastCalcEmpty": "برای {n} مصرف‌کننده مقداری وارد نشده و از محاسبات کنار گذاشته شد.",
+    "toastCalcBad": "مقدار {n} ردیف نامعتبر است؛ مقدار باید عددی بزرگ‌تر از صفر باشد.",
+    "emptyLoadsText": "برای شروع، مصرف‌کننده‌ها را اضافه کرده و مقدار توان یا جریان هرکدام را وارد کنید. محاسبات به‌صورت خودکار و زنده انجام می‌شود.",
+    "emptyLoadsWarn": "یکی از ردیف‌ها مقدار عددی نامعتبر دارد؛ مقدار توان یا جریان را بررسی کنید.",
+    "noLoadsRegistered": "مصرفی ثبت نشده است",
+    "currentL1": "جریان فاز L1",
+    "currentL2": "جریان فاز L2",
+    "currentL3": "جریان فاز L3",
+    "currentN": "جریان سیم نول (N)",
+    "ampere": "آمپر",
+    "unbalance": "عدم تعادل فازها",
+    "designCurrent": "جریان طراحی تابلو (IB = بیشینه فاز)",
+    "activePower": "توان فعال کل (الکتریکی)",
+    "apparentPower": "توان ظاهری کل",
+    "reactivePower": "توان راکتیو کل",
+    "powerFactor": "ضریب توان کل",
+    "actualVd": "افت ولتاژ واقعی کابل ورودی",
+    "allowedVd": "حد مجاز افت ولتاژ",
+    "vdRef3p": "نسبت به 400V (مدل سه‌فاز)",
+    "vdRef1p": "نسبت به 230V (مدل تک‌فاز)",
+    "mainCableTitle": "سایز نهایی کابل اصلی ورودی تابلو",
+    "helpMainCable": "نمایش سایز کابل به دو صورت حداقل مجاز طبق استاندارد و سایز پیشنهادی مهندسی با حاشیه اطمینان.",
+    "mainBreakerTitle": "کلید حفاظتی اصلی",
+    "helpMainBreaker": "کوچک‌ترین رنج استاندارد بالای جریان طراحی؛ تیپ B برای بار مقاومتی، C برای بار مختلط/موتوری و D برای جریان راه‌اندازی سنگین موتورها.",
+    "lblMinimum": "حداقل: ",
+    "lblRecommended": "پیشنهاد: ",
+    "breakerOutOfRange": "خارج از رنج استاندارد",
+    "breakerOutOfRangeSub": "جریان طراحی از 630A بیشتر است؛ به تابلو چندپیسته و MCCB قدرتی نیاز دارید.",
+    "mcb": "کلید مینیاتوری (MCB)",
+    "mccb": "کلید اتوماتیک (MCCB)",
+    "curveB": "B (تریپ 3–5×In — بار مقاومتی)",
+    "curveC": "C (تریپ 5–10×In — بار مختلط/موتوری)",
+    "curveD": "D (تریپ 10–20×In — موتوری با جریان راه‌اندازی بالا)",
+    "breakerSub": "{dev} — منحنی {curve} | شرط In ≥ IB برقرار است ({ib}A)",
+    "cableSub": "IZ پایه حداقل: {izBase}A → تصحیح‌شده: {izCorr}A ≥ In={inB}A | سایز پیشنهادی یک پله بالاتر ({rec} mm²) برای امنیت حرارتی و افت ولتاژ کمتر توصیه می‌شود.",
+    "alertPhasorOk": "جمع برداری فازورها برای جریان نول و تخصیص حریصانه بارها به فازها برای حداقل عدم تعادل انجام شد.",
+    "alertUnbalanceHigh": "عدم تعادل فازها بالاست ({val}٪). توزیع بارهای تک‌فاز را بازنگری کنید.",
+    "alertNeutralHigh": "جریان نول نزدیک یا بیشتر از جریان فازهاست؛ احتمال هارمونیک یا بارهای شدیداً نامتقارن. از نول هم‌مقطع و کلید 4P استفاده کنید.",
+    "alertVdFail": "افت ولتاژ با بزرگ‌ترین سطح مقطع استاندارد هم بیش از حد مجاز است ({vd}٪ > {max}٪). طول مسیر را کوتاه کنید، افت مجاز را افزایش دهید یا از کابل با هادی بهتر استفاده کنید.",
+    "alertVdNear": "افت ولتاژ کابل اصلی ({vd}٪) به حد مجاز نزدیک است؛ در صورت امکان از مقطع پیشنهادی ({rec} mm²) استفاده کنید.",
+    "alertIzLessIn": "جریان مجاز کابل پس از ضرایب تصحیح کمتر از رنج کلید است؛ حفاظت اضافه‌بار برقرار نیست.",
+    "alertInvalidRows": "یک یا چند ردیف مقدار نامعتبر دارند و در محاسبات لحاظ نشدند.",
+    "alertGroupApplied": "ضریب هم‌آرایی {kg} اعمال شد؛ مطمئن شوید با تعداد واقعی مدارهای مجاور سازگار است.",
+    "groupSummaryTitle": "خلاصه ردیف‌بندی در تابلو برق",
+    "helpGroupSummary": "مجموع توان، جریان و متراژ سیم هر ردیف تابلو برق به صورت مجزا.",
+    "thColGroup": "ردیف / گروه تابلو",
+    "thColCount": "تعداد مصرف‌کننده",
+    "thColPelec": "مجموع توان",
+    "thColSumI": "مجموع جریان",
+    "thColTotalLen": "مجموع طول کابل",
+    "elementAllocationTitle": "تخصیص بارها به فازها و قطر سیم هر مصرف‌کننده",
+    "helpElementAllocation": "سایز کابل هر مصرف‌کننده به تفکیک بر مبنای جریان و طول کابل واردشده محاسبه شده است.",
+    "thColConsumer": "مصرف‌کننده",
+    "thColRow": "ردیف تابلو",
+    "thColType": "نوع",
+    "thColPhase": "فاز",
+    "thColLen": "طول کابل",
+    "thColI": "جریان",
+    "thColP": "توان مؤثر",
+    "thColPf": "cosφ",
+    "thColCableMinRec": "سایز کابل (حداقل / پیشنهاد)",
+    "phase1pFa": "تک‌فاز",
+    "phase2pFa": "دوفاز",
+    "phase3pFa": "سه‌فاز",
+    "ltMotor": "موتوری",
+    "ltResistive": "مقاومتی",
+    "ltCustom": "سفارشی",
+    "tagMinTitle": "حداقل مقطع مجاز",
+    "tagRecTitle": "مقطع پیشنهادی",
+    "prowL1": "جریان فاز L1",
+    "prowL2": "جریان فاز L2",
+    "prowL3": "جریان فاز L3",
+    "prowN": "جریان سیم نول (N)",
+    "prowUnbalance": "درصد عدم تعادل فازها",
+    "prowIb": "جریان طراحی تابلو (IB)",
+    "prowPowers": "توان فعال / ظاهری / راکتیو کل",
+    "prowPf": "ضریب توان کل",
+    "prowVd": "افت ولتاژ واقعی کابل ورودی / حد مجاز",
+    "prowCableMin": "کابل اصلی ورودی (حداقل مجاز)",
+    "prowCableRec": "کابل اصلی ورودی (پیشنهادی)",
+    "prowBreaker": "کلید حفاظتی اصلی",
+    "modalTitle": "انتخاب زبان / Select Language",
+    "modalSubtitle": "لطفاً زبان مورد نظر خود را برای ادامه انتخاب کنید:",
+    "modalConfirm": "تأیید و ورود",
+    "sampleMotor": "پمپ آب شركت",
+    "sampleHeater": "هیتر كانال",
+    "sampleFan": "فن ایندوکشن",
+    "sampleWelder": "دستگاه جوش MIG",
+    "sampleLed": "روشنایی LED سالن",
+    "groupMotor": "ردیف ۱ - موتوری",
+    "groupHeater": "ردیف ۲ - حرارتی",
+    "groupWorkshop": "ردیف ۳ - کارگاهی",
+    "groupLighting": "ردیف ۴ - روشنایی"
+  },
+  "en": {
+    "dir": "ltr",
+    "name": "English",
+    "title": "Switchboard Calculator | Current, Phase Balance, Cable & Breaker",
+    "headerTitle": "Industrial Switchboard Calculator",
+    "headerSub": "Phase Currents, Load Balance, Neutral, Cable Sizing & Protection — Based on IEC 60364",
+    "btnLang": "Language",
+    "modeSimple": "Mode: Simple",
+    "modeAdvanced": "Mode: Advanced",
+    "themeLight": "Light Theme",
+    "themeDark": "Dark Theme",
+    "btnCalc": "Calculate",
+    "btnPrint": "Print / PDF",
+    "printReportTitle": "Electrical Switchboard Calculation Report",
+    "printReportDate": "Report Date: {date} — Standard: IEC 60364-5-52 | System: 400/230V, 50Hz",
+    "globalParamsTitle": "Global Project Parameters",
+    "helpGlobalParams": "Global calculation settings: path length, voltage drop limit, conductor material, and installation conditions applied to all circuits.",
+    "lengthLabel": "Main Incomer Cable Length",
+    "helpLength": "Length of the main incoming feeder cable from source to switchboard in meters; basis for panel cable sizing and voltage drop.",
+    "meter": "m",
+    "vdLabel": "Permissible Voltage Drop",
+    "helpVd": "Maximum allowable voltage drop in percent; key constraint for cable cross-section selection (typically 3% to 5%).",
+    "percent": "%",
+    "condLabel": "Conductor Material",
+    "helpCond": "Copper provides higher conductivity requiring smaller sections; Aluminium is more economical but requires larger cross-sections for identical currents.",
+    "condCu": "Copper (Cu)",
+    "condAl": "Aluminium (Al)",
+    "condStandard": "According to IEC 60364-5-52 tables",
+    "tempLabel": "Ambient Temperature",
+    "helpTemp": "Installation ambient temperature; current-carrying capacity is adjusted with temperature correction factors relative to 30°C base.",
+    "tempStandard": "30°C (Standard)",
+    "tempSub": "PVC Insulation — 30°C Base",
+    "methodLabel": "Installation Method",
+    "helpMethod": "Method of cable laying (clipped on wall, in conduit, direct buried, etc.); each method imposes a specific derating factor.",
+    "methodC": "C — Single / Multi-core on wall or cable ladder",
+    "methodE": "E — Cable in free air / perforated tray",
+    "methodB2": "B2 — Multi-core cable in conduit on wall",
+    "methodD2": "D2 — Direct in ground",
+    "methodB1": "B1 — In conduit embedded in masonry",
+    "methodD1": "D1 — In ducts in ground",
+    "methodSub": "Installation Method Derating Factor",
+    "groupLabel": "Circuit Grouping Factor",
+    "helpGroup": "If multiple circuits run adjacent to each other, enter a factor below 1 (e.g. 0.8) to account for mutual thermal heating.",
+    "groupSub": "Grouping Factor (Rating factor)",
+    "loadsListTitle": "Loads Schedule",
+    "helpLoadsList": "Enter the power or current of each consumer; phase balancing, switchboard rows, cables, and circuit breaker are calculated live.",
+    "thIdx": "#",
+    "thName": "Load Name / Description",
+    "helpThName": "Optional label for the load; displayed in phase assignment schedule and print reports.",
+    "thGroup": "Board Row / Group",
+    "helpThGroup": "Row or group for this consumer in the switchboard (e.g. Row 1, Row 2, Lighting); aggregated power, current, and cable length are computed per row.",
+    "thLen": "Cable Length (m)",
+    "helpThLen": "Distance from switchboard to this specific load in meters for accurate individual cable sizing and total row wire length.",
+    "thItype": "Input Type",
+    "helpThItype": "Unit of 'Value' column: Kilowatts (automatically converted to Amperes via standard formulas) or Amperes (measured current).",
+    "thValue": "Value",
+    "helpThValue": "Power or current magnitude depending on input type; multiplied by coincidence and demand factors.",
+    "thPhase": "Load Phase",
+    "helpThPhase": "Consumer connection: 1-phase Phase-Neutral (230V), 2-phase Phase-Phase (400V, optimal pair selected), or balanced 3-phase (400V).",
+    "thLtype": "Load Type",
+    "helpThLtype": "Motor/Inductive: cosφ=0.8, η=0.85 | Resistive/Heating: cosφ=1, η=1 | Custom: manual coefficient input.",
+    "thPf": "cosφ",
+    "helpThPf": "Power factor of the load; affects current magnitude, phasor angle, and voltage drop. Defaults according to load type.",
+    "thEta": "η (Efficiency)",
+    "helpThEta": "Electrical-to-mechanical conversion efficiency; equals 1.0 for purely resistive loads.",
+    "thKs": "ks (Coincidence)",
+    "helpThKs": "Simultaneity factor: fraction of load operating simultaneously (0.7 represents 70% active).",
+    "thKd": "kd (Demand)",
+    "helpThKd": "Demand factor: maximum actual demand relative to installed rated capacity; default is 1.0.",
+    "btnAdd": "Add Consumer",
+    "btnClearAll": "Clear All",
+    "hintLoads": "In Simple Mode, advanced parameters (temperature, installation method, derating factors) are automatically preset to safe standard values.",
+    "resultsTitle": "Calculation Results",
+    "helpResults": "Final engineering output: phase currents, neutral current, unbalance percentage, cable selection, and main circuit breaker.",
+    "printSummaryHead": "Calculation Summary",
+    "notesTitle": "Calculation Methodology:",
+    "notesText": "Current conversion: 1-phase I = P/(V·cosφ·η), 2-phase I = P/(V_LL·cosφ·η), 3-phase I = P/(√3·V_LL·cosφ·η) | Voltage drop: ΔU% = b·I·L·(R·cosφ + X·sinφ)/V·100 (b=1 for 3-phase, b=2 for 1-phase) | Operating resistivity: Cu ρ=0.0225, Al ρ=0.034 Ω·mm²/m, cable reactance X=0.08 Ω/km | Neutral current is derived from vector phasor addition with individual load phase angles | Cable sizing condition: I_B ≤ I_n ≤ I_Z with temperature, installation, and grouping derating factors | Neutral conductor sized equal to phase conductors for harmonic resilience; PE sized according to IEC 60364-5-54 | Results are for engineering and design guidance and must be approved by the supervising engineer.",
+    "optKw": "Kilowatt (kW)",
+    "optA": "Ampere (A)",
+    "opt1p": "1-Phase 230V",
+    "opt2p": "2-Phase 400V",
+    "opt3p": "3-Phase 400V",
+    "optMotor": "Motor / Inductive",
+    "optResistive": "Resistive / Heating",
+    "optCustom": "Custom",
+    "rowPlaceholder": "Row 1",
+    "loadPlaceholder": "Consumer {n}",
+    "defaultGroup": "General Row",
+    "groupPrefix": "Row ",
+    "btnDelTitle": "Delete row",
+    "confirmClear": "Are you sure you want to clear all consumers?",
+    "toastAdded": "New consumer added to schedule.",
+    "toastDeleted": "Consumer row removed.",
+    "toastMinRows": "At least one consumer row is required; last row cannot be deleted.",
+    "toastCleared": "All consumers have been cleared.",
+    "toastModeSwitched": "Calculation mode switched to '{mode}'.",
+    "toastCalcSuccess": "Calculations completed and results updated successfully.",
+    "toastCalcEmpty": "{n} consumers had empty values and were skipped in calculations.",
+    "toastCalcBad": "{n} consumers had invalid numeric values; values must be greater than zero.",
+    "emptyLoadsText": "To begin, add consumers and enter their power or current values. Sizing and calculations update automatically.",
+    "emptyLoadsWarn": "One or more rows contain invalid values; please check your inputs.",
+    "noLoadsRegistered": "No consumers recorded",
+    "currentL1": "Phase L1 Current",
+    "currentL2": "Phase L2 Current",
+    "currentL3": "Phase L3 Current",
+    "currentN": "Neutral (N) Current",
+    "ampere": "A",
+    "unbalance": "Phase Unbalance",
+    "designCurrent": "Design Current (IB = max phase)",
+    "activePower": "Total Active Power (Electrical)",
+    "apparentPower": "Total Apparent Power",
+    "reactivePower": "Total Reactive Power",
+    "powerFactor": "Overall Power Factor",
+    "actualVd": "Actual Incomer Cable Voltage Drop",
+    "allowedVd": "Permissible Voltage Drop Limit",
+    "vdRef3p": "referenced to 400V (3-phase model)",
+    "vdRef1p": "referenced to 230V (1-phase model)",
+    "mainCableTitle": "Incomer Main Cable Sizing",
+    "helpMainCable": "Displays cable sizing in two tiers: minimum code-compliant cross-section and recommended engineering cross-section with safety margin.",
+    "mainBreakerTitle": "Main Circuit Breaker",
+    "helpMainBreaker": "Smallest standard rating above design current; Curve B for resistive loads, C for general/motor loads, and D for heavy motor inrush.",
+    "lblMinimum": "Minimum: ",
+    "lblRecommended": "Recommended: ",
+    "breakerOutOfRange": "Out of standard range",
+    "breakerOutOfRangeSub": "Design current exceeds 630A; multi-busbar panel and high-power MCCB/ACB required.",
+    "mcb": "Miniature Circuit Breaker (MCB)",
+    "mccb": "Moulded Case Circuit Breaker (MCCB)",
+    "curveB": "B (Trip 3–5×In — Resistive loads)",
+    "curveC": "C (Trip 5–10×In — Mixed / Motor loads)",
+    "curveD": "D (Trip 10–20×In — High inrush motors)",
+    "breakerSub": "{dev} — Curve {curve} | Condition In ≥ IB satisfied ({ib}A)",
+    "cableSub": "Base IZ: {izBase}A → Corrected: {izCorr}A ≥ In={inB}A | Recommended size one standard step higher ({rec} mm²) for thermal safety and lower voltage drop.",
+    "alertPhasorOk": "Vector phasor addition applied for neutral current; greedy algorithm balanced loads across phases for minimal unbalance.",
+    "alertUnbalanceHigh": "Phase unbalance is elevated ({val}%). Revisit distribution of single-phase loads.",
+    "alertNeutralHigh": "Neutral current approaches or exceeds phase currents; check for harmonics or severe asymmetry. Use full-size neutral and 4P breaker.",
+    "alertVdFail": "Voltage drop exceeds permissible limit even with maximum standard cross-section ({vd}% > {max}%). Shorten run, raise limit, or switch to copper.",
+    "alertVdNear": "Main cable voltage drop ({vd}%) is close to maximum allowed; consider using recommended size ({rec} mm²).",
+    "alertIzLessIn": "Cable ampacity after derating is lower than breaker rating; overload protection condition not satisfied.",
+    "alertInvalidRows": "One or more rows have invalid inputs and were ignored in calculation.",
+    "alertGroupApplied": "Grouping factor {kg} applied; verify that it corresponds to actual adjacent circuit count.",
+    "groupSummaryTitle": "Switchboard Row Schedule Summary",
+    "helpGroupSummary": "Aggregated active power, current, and total cable length per switchboard row/group.",
+    "thColGroup": "Switchboard Row / Group",
+    "thColCount": "Load Count",
+    "thColPelec": "Total Power",
+    "thColSumI": "Total Current",
+    "thColTotalLen": "Total Cable Length",
+    "elementAllocationTitle": "Phase Assignment & Individual Consumer Cable Sizing",
+    "helpElementAllocation": "Individual cable size calculated for each consumer based on its design current and specified route length.",
+    "thColConsumer": "Consumer",
+    "thColRow": "Row",
+    "thColType": "Type",
+    "thColPhase": "Phase",
+    "thColLen": "Length",
+    "thColI": "Current",
+    "thColP": "Active Power",
+    "thColPf": "cosφ",
+    "thColCableMinRec": "Cable Size (Min / Rec)",
+    "phase1pFa": "1-Phase",
+    "phase2pFa": "2-Phase",
+    "phase3pFa": "3-Phase",
+    "ltMotor": "Motor",
+    "ltResistive": "Resistive",
+    "ltCustom": "Custom",
+    "tagMinTitle": "Minimum required section",
+    "tagRecTitle": "Recommended section",
+    "prowL1": "Phase L1 Current",
+    "prowL2": "Phase L2 Current",
+    "prowL3": "Phase L3 Current",
+    "prowN": "Neutral (N) Current",
+    "prowUnbalance": "Phase Unbalance Percentage",
+    "prowIb": "Switchboard Design Current (IB)",
+    "prowPowers": "Total Active / Apparent / Reactive Power",
+    "prowPf": "Overall Power Factor",
+    "prowVd": "Actual Incomer Voltage Drop / Allowed",
+    "prowCableMin": "Main Incomer Cable (Minimum)",
+    "prowCableRec": "Main Incomer Cable (Recommended)",
+    "prowBreaker": "Main Circuit Breaker",
+    "modalTitle": "Select Language / انتخاب زبان",
+    "modalSubtitle": "Please select your preferred language to continue:",
+    "modalConfirm": "Confirm & Enter",
+    "sampleMotor": "Water Pump",
+    "sampleHeater": "Duct Heater",
+    "sampleFan": "Induction Fan",
+    "sampleWelder": "MIG Welding Machine",
+    "sampleLed": "Hall LED Lighting",
+    "groupMotor": "Row 1 - Motors",
+    "groupHeater": "Row 2 - Heating",
+    "groupWorkshop": "Row 3 - Workshop",
+    "groupLighting": "Row 4 - Lighting"
+  },
+  "fr": {
+    "dir": "ltr",
+    "name": "Français",
+    "title": "Calculateur Tableau Électrique | Courant, Équilibrage, Câbles & Disjoncteur",
+    "headerTitle": "Calculateur de Tableau Électrique Industriel",
+    "headerSub": "Courants de phase, équilibrage, neutre, dimensionnement câbles et disjoncteurs — Selon IEC 60364",
+    "btnLang": "Langue",
+    "modeSimple": "Mode : Simple",
+    "modeAdvanced": "Mode : Avancé",
+    "themeLight": "Thème Clair",
+    "themeDark": "Thème Sombre",
+    "btnCalc": "Calculer",
+    "btnPrint": "Imprimer / PDF",
+    "printReportTitle": "Rapport de Calcul du Tableau Électrique",
+    "printReportDate": "Date du rapport : {date} — Norme : IEC 60364-5-52 | Système : 400/230V, 50Hz",
+    "globalParamsTitle": "Paramètres Généraux du Projet",
+    "helpGlobalParams": "Paramètres globaux : longueur de ligne, chute de tension admissible, matériau du conducteur et conditions de pose.",
+    "lengthLabel": "Longueur Câble Arrivée Principale",
+    "helpLength": "Longueur du câble d'alimentation principal en mètres ; base pour le calcul de section et de chute de tension.",
+    "meter": "m",
+    "vdLabel": "Chute de Tension Admissible",
+    "helpVd": "Chute de tension maximale tolérée en pourcentage (généralement 3% à 5%).",
+    "percent": "%",
+    "condLabel": "Matériau du Conducteur",
+    "helpCond": "Le cuivre offre une meilleure conductivité et une section plus faible ; l'aluminium est plus économique mais requiert une section supérieure.",
+    "condCu": "Cuivre (Cu)",
+    "condAl": "Aluminium (Al)",
+    "condStandard": "Conforme aux tableaux IEC 60364-5-52",
+    "tempLabel": "Température Ambiante",
+    "helpTemp": "Température ambiante de pose ; courant admissible corrigé par rapport à la base de 30°C.",
+    "tempStandard": "30°C (Standard)",
+    "tempSub": "Isolant PVC — Base 30°C",
+    "methodLabel": "Mode de Pose",
+    "helpMethod": "Mode d'installation (apparent sur paroi, conduit, chemin de câbles, enterré) avec facteur de déclassement.",
+    "methodC": "C — Câble sur paroi / échelle à câbles",
+    "methodE": "E — Câble à l'air libre / chemin perforé",
+    "methodB2": "B2 — Sous conduit sur paroi",
+    "methodD2": "D2 — Enterré directement dans le sol",
+    "methodB1": "B1 — Sous conduit encastré",
+    "methodD1": "D1 — Sous conduit enterré",
+    "methodSub": "Facteur de correction du mode de pose",
+    "groupLabel": "Facteur de Groupement",
+    "helpGroup": "Pour plusieurs circuits jointifs, appliquez un facteur inférieur à 1 (ex. 0,8) pour compenser l'échauffement mutuel.",
+    "groupSub": "Facteur de groupement (Grouping factor)",
+    "loadsListTitle": "Tableau des Récepteurs",
+    "helpLoadsList": "Saisissez la puissance ou le courant de chaque charge ; équilibrage, rangées, câbles et disjoncteurs calculés en direct.",
+    "thIdx": "#",
+    "thName": "Désignation / Nom",
+    "helpThName": "Nom personnalisé du récepteur (affiché sur le rapport d'impression et l'affectation des phases).",
+    "thGroup": "Rangée du Tableau",
+    "helpThGroup": "Rangée ou départ du récepteur dans le tableau ; puissance, courant et métrage de câble regroupés par rangée.",
+    "thLen": "Longueur Câble (m)",
+    "helpThLen": "Distance entre le tableau et ce récepteur pour le dimensionnement individuel de son câble.",
+    "thItype": "Type de Saisie",
+    "helpThItype": "Unité : Kilowatts (conversion automatique en Ampères selon normes) ou Ampères (courant mesuré).",
+    "thValue": "Valeur",
+    "helpThValue": "Valeur de puissance ou courant selon la colonne précédente ; multipliée par ks et kd.",
+    "thPhase": "Phase Récepteur",
+    "helpThPhase": "Raccordement : Monophasé 230V, Biphasé 400V (paire optimale automatique), ou Triphasé 400V équilibré.",
+    "thLtype": "Type de Charge",
+    "helpThLtype": "Moteur/Inductif : cosφ=0,8, η=0,85 | Résistif : cosφ=1, η=1 | Personnalisé : saisie libre.",
+    "thPf": "cosφ",
+    "helpThPf": "Facteur de puissance ; impacte le courant, l'angle de phase et la chute de tension.",
+    "thEta": "η (Rendement)",
+    "helpThEta": "Rendement de conversion de puissance ; égal à 1 pour une charge résistive pure.",
+    "thKs": "ks (Simultanéité)",
+    "helpThKs": "Facteur de simultanéité : part de charge fonctionnant en même temps (0,7 = 70%).",
+    "thKd": "kd (Utilisation)",
+    "helpThKd": "Facteur d'utilisation maximale par rapport à la puissance nominale installée ; défaut 1,0.",
+    "btnAdd": "Ajouter Récepteur",
+    "btnClearAll": "Tout Effacer",
+    "hintLoads": "En Mode Simple, les paramètres avancés (température, pose, facteurs de correction) sont fixés aux valeurs standard sécurisées.",
+    "resultsTitle": "Résultats des Calculs",
+    "helpResults": "Bilan technique : courants de phase, courant neutre, déséquilibre, câbles et disjoncteur principal.",
+    "printSummaryHead": "Synthèse des Résultats",
+    "notesTitle": "Méthode de Calcul :",
+    "notesText": "Calcul d'intensité : Monophasé I = P/(V·cosφ·η), Biphasé I = P/(V_LL·cosφ·η), Triphasé I = P/(√3·V_LL·cosφ·η) | Chute de tension : ΔU% = b·I·L·(R·cosφ + X·sinφ)/V·100 (b=1 en triphasé, b=2 en monophasé) | Résistivité de service : Cu ρ=0,0225, Al ρ=0,034 Ω·mm²/m, réactance X=0,08 Ω/km | Courant de neutre issu de la somme vectorielle avec déphasages réels | Dimensionnement câble : I_B ≤ I_n ≤ I_Z avec corrections de température, pose et groupement | Conducteur neutre de même section pour la tenue aux harmoniques ; PE selon IEC 60364-5-54 | Résultats indicatifs soumis à validation par un ingénieur conseil.",
+    "optKw": "Kilowatt (kW)",
+    "optA": "Ampère (A)",
+    "opt1p": "Monophasé 230V",
+    "opt2p": "Biphasé 400V",
+    "opt3p": "Triphasé 400V",
+    "optMotor": "Moteur / Inductif",
+    "optResistive": "Résistif / Chauffage",
+    "optCustom": "Personnalisé",
+    "rowPlaceholder": "Rangée 1",
+    "loadPlaceholder": "Récepteur {n}",
+    "defaultGroup": "Rangée Générale",
+    "groupPrefix": "Rangée ",
+    "btnDelTitle": "Supprimer la ligne",
+    "confirmClear": "Êtes-vous sûr de vouloir supprimer tous les récepteurs ?",
+    "toastAdded": "Nouveau récepteur ajouté à la liste.",
+    "toastDeleted": "Ligne de récepteur supprimée.",
+    "toastMinRows": "Au moins un récepteur est requis ; la dernière ligne ne peut pas être supprimée.",
+    "toastCleared": "Tous les récepteurs ont été effacés.",
+    "toastModeSwitched": "Mode de calcul basculé en « {mode} ».",
+    "toastCalcSuccess": "Calculs terminés et résultats mis à jour avec succès.",
+    "toastCalcEmpty": "{n} récepteur(s) sans valeur ont été ignorés.",
+    "toastCalcBad": "{n} récepteur(s) avec valeur invalide (doit être > 0).",
+    "emptyLoadsText": "Pour démarrer, ajoutez des récepteurs et entrez leur puissance ou courant. Calculs automatiques en temps réel.",
+    "emptyLoadsWarn": "Une ou plusieurs lignes contiennent des valeurs invalides ; veuillez vérifier vos entrées.",
+    "noLoadsRegistered": "Aucun récepteur enregistré",
+    "currentL1": "Courant Phase L1",
+    "currentL2": "Courant Phase L2",
+    "currentL3": "Courant Phase L3",
+    "currentN": "Courant Neutre (N)",
+    "ampere": "A",
+    "unbalance": "Déséquilibre de Phase",
+    "designCurrent": "Courant d'Emploi (IB = max phase)",
+    "activePower": "Puissance Active Totale",
+    "apparentPower": "Puissance Apparente Totale",
+    "reactivePower": "Puissance Réactive Totale",
+    "powerFactor": "Facteur de Puissance Global",
+    "actualVd": "Chute de Tension Câble Arrivée",
+    "allowedVd": "Chute de Tension Maximale",
+    "vdRef3p": "par rapport à 400V (modèle triphasé)",
+    "vdRef1p": "par rapport à 230V (modèle monophasé)",
+    "mainCableTitle": "Section du Câble d'Alimentation Principal",
+    "helpMainCable": "Affichage en deux niveaux : section minimale réglementaire et section recommandée avec marge de sécurité.",
+    "mainBreakerTitle": "Disjoncteur Général de Protection",
+    "helpMainBreaker": "Calibre normalisé immédiatement supérieur à IB ; Courbe B pour résistif, C pour mixte/moteur, D pour fort courant de démarrage.",
+    "lblMinimum": "Minimum : ",
+    "lblRecommended": "Conseillé : ",
+    "breakerOutOfRange": "Hors plage standard",
+    "breakerOutOfRangeSub": "Courant d'emploi supérieur à 630A ; tableau de puissance et disjoncteur fort calibre requis.",
+    "mcb": "Disjoncteur Modulaire (MCB)",
+    "mccb": "Disjoncteur Boîtier Moulé (MCCB)",
+    "curveB": "B (Déclenchement 3–5×In — Charges résistives)",
+    "curveC": "C (Déclenchement 5–10×In — Mixte / Moteurs)",
+    "curveD": "D (Déclenchement 10–20×In — Démarrages lourds)",
+    "breakerSub": "{dev} — Courbe {curve} | Condition In ≥ IB respectée ({ib}A)",
+    "cableSub": "IZ de base : {izBase}A → Corrigé : {izCorr}A ≥ In={inB}A | Section recommandée d'un cran supérieur ({rec} mm²) pour la sécurité thermique et limiter la chute de tension.",
+    "alertPhasorOk": "Somme vectorielle appliquée pour le neutre ; algorithme glouton pour équilibrer les charges entre phases.",
+    "alertUnbalanceHigh": "Déséquilibre important des phases ({val}%). Répartir les charges monophasées différemment.",
+    "alertNeutralHigh": "Courant de neutre proche ou supérieur aux phases ; risque d'harmoniques. Neutre de pleine section et disjoncteur 4P requis.",
+    "alertVdFail": "Chute de tension excessive même avec la section maximale ({vd}% > {max}%). Réduire la longueur, augmenter la tolérance ou passer au cuivre.",
+    "alertVdNear": "Chute de tension du câble d'arrivée ({vd}%) proche de la limite ; envisagez la section conseillée ({rec} mm²).",
+    "alertIzLessIn": "Courant admissible du câble inférieur au calibre du disjoncteur ; protection contre les surcharges non assurée.",
+    "alertInvalidRows": "Une ou plusieurs lignes comportent des valeurs incorrectes et ont été exclues.",
+    "alertGroupApplied": "Facteur de groupement {kg} appliqué ; vérifiez la concordance avec le nombre réel de câbles jointifs.",
+    "groupSummaryTitle": "Synthèse par Rangée du Tableau",
+    "helpGroupSummary": "Puissance totale, courant cumulé et métrage de câble par rangée ou départ du tableau.",
+    "thColGroup": "Rangée / Groupe",
+    "thColCount": "Nombre Récepteurs",
+    "thColPelec": "Puissance Totale",
+    "thColSumI": "Courant Cumulé",
+    "thColTotalLen": "Longueur Totale Câble",
+    "elementAllocationTitle": "Affectation des Phases & Câble de Chaque Récepteur",
+    "helpElementAllocation": "Section calculée individuellement pour chaque récepteur en fonction de son courant et de sa distance.",
+    "thColConsumer": "Récepteur",
+    "thColRow": "Rangée",
+    "thColType": "Type",
+    "thColPhase": "Phase",
+    "thColLen": "Longueur",
+    "thColI": "Courant",
+    "thColP": "Puiss. Active",
+    "thColPf": "cosφ",
+    "thColCableMinRec": "Câble (Min / Conseillé)",
+    "phase1pFa": "Monophasé",
+    "phase2pFa": "Biphasé",
+    "phase3pFa": "Triphasé",
+    "ltMotor": "Moteur",
+    "ltResistive": "Résistif",
+    "ltCustom": "Personnalisé",
+    "tagMinTitle": "Section minimale obligatoire",
+    "tagRecTitle": "Section recommandée",
+    "prowL1": "Courant Phase L1",
+    "prowL2": "Courant Phase L2",
+    "prowL3": "Courant Phase L3",
+    "prowN": "Courant Neutre (N)",
+    "prowUnbalance": "Taux de Déséquilibre",
+    "prowIb": "Courant d'Emploi Tableau (IB)",
+    "prowPowers": "Puissances Active / Apparente / Réactive",
+    "prowPf": "Facteur de Puissance Global",
+    "prowVd": "Chute de Tension Câble Arrivée / Max",
+    "prowCableMin": "Câble Arrivée (Minimum)",
+    "prowCableRec": "Câble Arrivée (Conseillé)",
+    "prowBreaker": "Disjoncteur Général",
+    "modalTitle": "Choisir la Langue / Select Language",
+    "modalSubtitle": "Veuillez sélectionner votre langue préférée pour continuer :",
+    "modalConfirm": "Valider et Entrer",
+    "sampleMotor": "Pompe à Eau",
+    "sampleHeater": "Batterie Chauffante",
+    "sampleFan": "Ventilateur d'Extraction",
+    "sampleWelder": "Poste à Souder MIG",
+    "sampleLed": "Éclairage LED Atelier",
+    "groupMotor": "Rangée 1 - Moteurs",
+    "groupHeater": "Rangée 2 - Chauffage",
+    "groupWorkshop": "Rangée 3 - Atelier",
+    "groupLighting": "Rangée 4 - Éclairage"
+  },
+  "ar": {
+    "dir": "rtl",
+    "name": "العربية",
+    "title": "حاسبة اللوحات الكهربائية | التيار، توازن الأطوار، مقطع الكابل والقاطع",
+    "headerTitle": "حاسبة اللوحات الكهربائية الصناعية",
+    "headerSub": "تيار الأطوار، توازن الأحمال، تيار الحيادي، مقطع الكابل والقاطع الوقائي — وفق IEC 60364",
+    "btnLang": "اللغة / Language",
+    "modeSimple": "الوضع: مبسط",
+    "modeAdvanced": "الوضع: متقدم",
+    "themeLight": "المظهر الفاتح",
+    "themeDark": "المظهر الداكن",
+    "btnCalc": "حساب",
+    "btnPrint": "طباعة / PDF",
+    "printReportTitle": "تقرير حسابات اللوحة الكهربائية",
+    "printReportDate": "تاريخ التقرير: {date} — المعيار: IEC 60364-5-52 | النظام: 400/230V، 50Hz",
+    "globalParamsTitle": "المعايير العامة للمشروع",
+    "helpGlobalParams": "إعدادات الحساب الشاملة: طول المسار، أقصى هبوط جهد، نوع الموصل وظروف التمديد المطبقة على جميع الدوائر.",
+    "lengthLabel": "طول كابل التغذية الرئيسي للوحة",
+    "helpLength": "طول كابل الدخول الرئيسي من المصدر إلى اللوحة بالمتر؛ أساس حساب مقطع الكابل وهبوط الجهد.",
+    "meter": "متر",
+    "vdLabel": "هبوط الجهد المسموح به",
+    "helpVd": "الحد الأقصى المسموح لهبوط الجهد بالنسبة المئوية (غالباً بين 3٪ و 5٪).",
+    "percent": "بالمئة",
+    "condLabel": "مادة الموصل",
+    "helpCond": "النحاس يمتلك موصلية أعلى ويتطلب مقطعاً أصغر؛ الألومنيوم اقتصادي لكنه يحتاج مقطعاً أكبر لنفس التيار.",
+    "condCu": "نحاس (Cu)",
+    "condAl": "ألومنيوم (Al)",
+    "condStandard": "وفق جداول معيار IEC 60364-5-52",
+    "tempLabel": "درجة حرارة المحيط",
+    "helpTemp": "درجة حرارة بيئة التمديد؛ يتم تصحيح السعة الحرارية للتيار مقارنة بأساس 30 درجة مئوية.",
+    "tempStandard": "30°C (قياسي)",
+    "tempSub": "عازل PVC — الأساس 30 درجة",
+    "methodLabel": "طريقة التمديد",
+    "helpMethod": "طريقة التمديد (مثبت على الجدار، في أنابيب، دفن مباشر، حامل كابلات) مع معامل التصحيح الخاص بها.",
+    "methodC": "C — كابل على الجدار / سلم كابلات",
+    "methodE": "E — في الهواء الطلق / صينية مثقبة",
+    "methodB2": "B2 — داخل أنبوب على الجدار",
+    "methodD2": "D2 — دفن مباشر في الأرض",
+    "methodB1": "B1 — داخل أنبوب مدفون في الجدار",
+    "methodD1": "D1 — داخل مجرى في الأرض",
+    "methodSub": "معامل تصحيح طريقة التمديد",
+    "groupLabel": "معامل التجميع (التقارب)",
+    "helpGroup": "عند تمديد عدة دوائر متجاورة، أدخل قيمة أقل من 1 (مثلاً 0.8) لمراعاة التأثير الحراري المتبادل.",
+    "groupSub": "معامل التجميع (Grouping Factor)",
+    "loadsListTitle": "جدول الأحمال والمستهلكين",
+    "helpLoadsList": "أدخل قدرة أو تيار كل حمل ومواصفاته؛ يتم حساب توازن الأطوار والصفوف والكابلات والقواطع فورياً.",
+    "thIdx": "#",
+    "thName": "اسم / وصف الحمل",
+    "helpThName": "اسم اختياري للحمل؛ يظهر في جدول توزيع الأطوار وتقرير الطباعة.",
+    "thGroup": "صف اللوحة",
+    "helpThGroup": "الصف أو المجموعة التابع لها هذا الحمل في اللوحة الكهربائية (مثلاً: الصف 1، الإنارة)؛ لتجميع القدرة والتيار والطول لكل صف.",
+    "thLen": "طول الكابل (متر)",
+    "helpThLen": "المسافة من اللوحة إلى هذا الحمل بالمتر لحساب مقطع الكابل الخاص به بشكل دقيق ومجموع أطوال الصف.",
+    "thItype": "نوع الإدخال",
+    "helpThItype": "وحدة عمود «القيمة»: كيلوواط (تحويل تلقائي للأمبير حسب القوانين) أو أمبير (تيار مقاس).",
+    "thValue": "القيمة",
+    "helpThValue": "قيمة القدرة أو التيار حسب العمود السابق؛ تُضرب في معاملي التزامن والطلب.",
+    "thPhase": "طور الحمل",
+    "helpThPhase": "طريقة توصيل الحمل: أحادي الطور 230V، ثنائي الطور 400V (اختيار أفضل طورين تلقائياً)، أو ثلاثي الأطوار 400V متوازن.",
+    "thLtype": "نوع الحمل",
+    "helpThLtype": "محرك / حثي: cosφ=0.8 و η=0.85 | مقاوم / حراري: كلاهما 1 | مخصص: إدخال يدوي.",
+    "thPf": "cosφ",
+    "helpThPf": "معامل القدرة للحمل؛ يؤثر على قيمة التيار وزاوية الطور وهبوط الجهد.",
+    "thEta": "η (الكفاءة)",
+    "helpThEta": "كفاءة تحويل القدرة؛ تساوي 1 للأحمال المقاومة الخالصة.",
+    "thKs": "ks التزامن",
+    "helpThKs": "معامل التزامن: نسبة الأحمال التي تعمل في نفس الوقت (0.7 تعني 70٪ من الوقت).",
+    "thKd": "kd الطلب",
+    "helpThKd": "معامل الطلب: أقصى طلب فعلي مقارنة بالقدرة الاسمية المركبة؛ الافتراضي 1.",
+    "btnAdd": "إضافة حمل",
+    "btnClearAll": "مسح الكل",
+    "hintLoads": "في الوضع المبسط، يتم ضبط المعاملات المتقدمة (الحرارة، طريقة التمديد، معاملات التصحيح) تلقائياً على القيم القياسية الآمنة.",
+    "resultsTitle": "نتائج الحسابات",
+    "helpResults": "المخرجات الهندسية النهائية: تيار الأطوار، تيار الحيادي، نسبة عدم التوازن، اختيار الكابل والقاطع الرئيسي.",
+    "printSummaryHead": "ملخص نتائج الحسابات",
+    "notesTitle": "الأسس الحسابية:",
+    "notesText": "تحويل القدرة إلى تيار: أحادي الطور I = P/(V·cosφ·η)، ثنائي الطور I = P/(V_LL·cosφ·η)، ثلاثي الأطوار I = P/(√3·V_LL·cosφ·η) | هبوط الجهد: ΔU% = b·I·L·(R·cosφ + X·sinφ)/V·100 (حيث b=1 للثلاثي و b=2 للأحادي) | المقاومة النوعية للتشغيل: نحاس ρ=0.0225، ألومنيوم ρ=0.034 Ω·mm²/m، المفاعلة الحثية X=0.08 Ω/km | تيار الحيادي يُحسب بالجمع الاتجاهي الطوري | اختيار الكابل: شرط I_B ≤ I_n ≤ I_Z مع معاملات تصحيح الحرارة والتمديد والتجميع | موصل الحيادي بنفس مقطع الأطوار لمقاومة التوافقيات؛ والأرضي وفق IEC 60364-5-54 | هذه النتائج إرشادية هندسية وتتطلب اعتماد المهندس المشرف.",
+    "optKw": "كيلوواط (kW)",
+    "optA": "أمبير (A)",
+    "opt1p": "أحادي الطور 230V",
+    "opt2p": "ثنائي الطور 400V",
+    "opt3p": "ثلاثي الأطوار 400V",
+    "optMotor": "محرك / حثي",
+    "optResistive": "مقاوم / حراري",
+    "optCustom": "مخصص",
+    "rowPlaceholder": "الصف 1",
+    "loadPlaceholder": "حمل {n}",
+    "defaultGroup": "الصف العام",
+    "groupPrefix": "الصف ",
+    "btnDelTitle": "حذف السطر",
+    "confirmClear": "هل أنت متأكد من رغبتك في مسح كافة المستهلكين؟",
+    "toastAdded": "تمت إضافة حمل جديد إلى الجدول.",
+    "toastDeleted": "تم حذف سطر الحمل.",
+    "toastMinRows": "يجب وجود حمل واحد على الأقل؛ لا يمكن حذف السطر الأخير.",
+    "toastCleared": "تم مسح كافة الأحمال بنجاح.",
+    "toastModeSwitched": "تم تغيير وضع الحساب إلى «{mode}».",
+    "toastCalcSuccess": "تمت الحسابات وتحديث النتائج بنجاح.",
+    "toastCalcEmpty": "تم تخطي {n} حمل لعدم إدخال قيمة له.",
+    "toastCalcBad": "يوجد {n} سطر بقيم غير صالحة؛ يجب أن تكون القيمة أكبر من الصفر.",
+    "emptyLoadsText": "للبدء، أضف الأحمال وأدخل قيم القدرة أو التيار. تتم الحسابات تلقائياً ومباشرة.",
+    "emptyLoadsWarn": "أحد الأسطر يحتوي على قيمة غير صالحة؛ يرجى مراجعة المدخلات.",
+    "noLoadsRegistered": "لم يتم تسجيل أي حمل",
+    "currentL1": "تيار الطور L1",
+    "currentL2": "تيار الطور L2",
+    "currentL3": "تيار الطور L3",
+    "currentN": "تيار خط الحيادي (N)",
+    "ampere": "أمبير",
+    "unbalance": "عدم اتزان الأطوار",
+    "designCurrent": "تيار التصميم للوحة (IB = أعلى طور)",
+    "activePower": "القدرة الفعالة الكلية",
+    "apparentPower": "القدرة الظاهرية الكلية",
+    "reactivePower": "القدرة غير الفعالة الكلية",
+    "powerFactor": "معامل القدرة الإجمالي",
+    "actualVd": "هبوط الجهد الفعلي لكابل التغذية",
+    "allowedVd": "الحد الأقصى لهبوط الجهد",
+    "vdRef3p": "منسوباً إلى 400V (نظام ثلاثي الأطوار)",
+    "vdRef1p": "منسوباً إلى 230V (نظام أحادي الطور)",
+    "mainCableTitle": "مقطع كابل الدخول الرئيسي للوحة",
+    "helpMainCable": "عرض مقطع الكابل بمستويين: الحد الأدنى النظامي والمقطع المقترح بهامش أمان هندسي.",
+    "mainBreakerTitle": "القاطع الكهربائي الوقائي الرئيسي",
+    "helpMainBreaker": "أصغر سعة قياسية أعلى من تيار التصميم؛ منحنى B للمقاوم، C للمختلط والمحركات، و D لبدء حركة المحركات الثقيل.",
+    "lblMinimum": "الحد الأدنى: ",
+    "lblRecommended": "المقترح: ",
+    "breakerOutOfRange": "خارج النطاق القياسي",
+    "breakerOutOfRangeSub": "تيار التصميم يتجاوز 630A؛ يلزم لوحة بقضبان توزيع خاصة وقواطع هوائية أو مدمجة ضخمة.",
+    "mcb": "قاطع منمنم (MCB)",
+    "mccb": "قاطع قالبي مدمج (MCCB)",
+    "curveB": "B (فصل عند 3–5×In — أحمال مقاومة)",
+    "curveC": "C (فصل عند 5–10×In — أحمال مختلطة / محركات)",
+    "curveD": "D (فصل عند 10–20×In — محركات بتيار بدء عالي)",
+    "breakerSub": "{dev} — منحنى {curve} | الشرط In ≥ IB محقق ({ib}A)",
+    "cableSub": "التيار الأساسي IZ: {izBase}A → بعد التصحيح: {izCorr}A ≥ In={inB}A | يُفضل استخدام المقطع المقترح الأعلى درجة ({rec} mm²) للأمان الحراري وتقليل هبوط الجهد.",
+    "alertPhasorOk": "تم تطبيق الجمع الاتجاهي لحساب تيار الحيادي وتوزيع الأحمال لتقليل عدم الاتزان لأدنى حد.",
+    "alertUnbalanceHigh": "نسبة عدم اتزان الأطوار مرتفعة ({val}٪). يرجى إعادة توزيع الأحمال أحادية الطور.",
+    "alertNeutralHigh": "تيار الحيادي قريب من أو يتجاوز تيار الأطوار؛ احتمال وجود توافقيات أو عدم تماثل حاد. استخدم حيادي كامل وقاطع 4 أقطاب.",
+    "alertVdFail": "هبوط الجهد يتجاوز المسموح به حتى مع أكبر مقطع قياسي ({vd}٪ > {max}٪). قلل طول المسار أو ارفع الحد المسموح أو استبدل بالنحاس.",
+    "alertVdNear": "هبوط الجهد لكابل التغذية ({vd}٪) قريب من الحد الأقصى؛ يُفضل اختيار المقطع المقترح ({rec} mm²).",
+    "alertIzLessIn": "التيار المسموح للكابل بعد معاملات التصحيح أقل من سعة القاطع؛ الحماية من زيادة الحمل غير متحققة.",
+    "alertInvalidRows": "سطر أو أكثر يحتوي على قيم غير صحيحة وتم استثناؤه من الحسابات.",
+    "alertGroupApplied": "تم تطبيق معامل التجميع {kg}؛ تأكد من مطابقته لعدد الدوائر المتجاورة فعلياً.",
+    "groupSummaryTitle": "ملخص صفوف اللوحة الكهربائية",
+    "helpGroupSummary": "القدرة الإجمالية، والتيار التراكمي، وإجمالي أطوال الكابلات لكل صف أو قسم في اللوحة.",
+    "thColGroup": "صف / مجموعة اللوحة",
+    "thColCount": "عدد الأحمال",
+    "thColPelec": "مجموع القدرة",
+    "thColSumI": "مجموع التيار",
+    "thColTotalLen": "مجموع طول الكابل",
+    "elementAllocationTitle": "توزيع الأحمال على الأطوار ومقطع كابل كل حمل",
+    "helpElementAllocation": "حساب مقطع الكابل بشكل منفصل لكل حمل بناءً على تياره والمسافة المحددة له.",
+    "thColConsumer": "الحمل",
+    "thColRow": "الصف",
+    "thColType": "النوع",
+    "thColPhase": "الطور",
+    "thColLen": "الطول",
+    "thColI": "التيار",
+    "thColP": "القدرة الفعالة",
+    "thColPf": "cosφ",
+    "thColCableMinRec": "مقطع الكابل (أدنى / مقترح)",
+    "phase1pFa": "أحادي الطور",
+    "phase2pFa": "ثنائي الطور",
+    "phase3pFa": "ثلاثي الأطوار",
+    "ltMotor": "محرك",
+    "ltResistive": "مقاوم",
+    "ltCustom": "مخصص",
+    "tagMinTitle": "الحد الأدنى النظامي",
+    "tagRecTitle": "المقطع المقترح",
+    "prowL1": "تيار الطور L1",
+    "prowL2": "تيار الطور L2",
+    "prowL3": "تيار الطور L3",
+    "prowN": "تيار خط الحيادي (N)",
+    "prowUnbalance": "نسبة عدم اتزان الأطوار",
+    "prowIb": "تيار تصميم اللوحة (IB)",
+    "prowPowers": "القدرة الفعالة / الظاهرية / غير الفعالة",
+    "prowPf": "معامل القدرة الكلي",
+    "prowVd": "هبوط الجهد الفعلي / الأقصى المسموح",
+    "prowCableMin": "كابل الدخول الرئيسي (الحد الأدنى)",
+    "prowCableRec": "كابل الدخول الرئيسي (المقترح)",
+    "prowBreaker": "القاطع الوقائي الرئيسي",
+    "modalTitle": "اختر اللغة / Select Language",
+    "modalSubtitle": "يرجى اختيار لغتك المفضلة للمتابعة:",
+    "modalConfirm": "تأكيد والدخول",
+    "sampleMotor": "مضخة مياه",
+    "sampleHeater": "سخان مجاري الهواء",
+    "sampleFan": "مروحة سحب حثية",
+    "sampleWelder": "ماكينة لحام MIG",
+    "sampleLed": "إنارة صالة LED",
+    "groupMotor": "الصف 1 - محركات",
+    "groupHeater": "الصف 2 - تدفئة",
+    "groupWorkshop": "الصف 3 - ورشة",
+    "groupLighting": "الصف 4 - إنارة"
+  }
+};
+let currentLang = "fa";
+const LANG_STORAGE_KEY = "wc-lang";
+const LANG_CHOSEN_KEY = "wc-lang-chosen";
+
+function t(key, vars){
+  const dict = TRANSLATIONS[currentLang] || TRANSLATIONS["fa"];
+  let text = dict[key] !== undefined ? dict[key] : (TRANSLATIONS["fa"][key] || key);
+  if(vars){
+    for(const k in vars){
+      text = text.split("{" + k + "}").join(vars[k]);
+    }
+  }
+  return text;
+}
+
+function updateStaticUI(){
+  const dict = TRANSLATIONS[currentLang] || TRANSLATIONS["fa"];
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = dict.dir;
+  document.title = t("title");
+  
+  if($("headTitle")) $("headTitle").textContent = t("headerTitle");
+  if($("headSub")) $("headSub").textContent = t("headerSub");
+  if($("langLabel")) $("langLabel").textContent = dict.name;
+  if($("modeLabel")) $("modeLabel").textContent = isSimpleMode ? t("modeSimple") : t("modeAdvanced");
+  if($("themeLabel")) $("themeLabel").textContent = document.documentElement.getAttribute("data-theme") === "light" ? t("themeDark") : t("themeLight");
+  if($("txtCalc")) $("txtCalc").textContent = t("btnCalc");
+  if($("txtPrint")) $("txtPrint").textContent = t("btnPrint");
+  if($("printReportHeading")) $("printReportHeading").textContent = t("printReportTitle");
+  
+  // Globals
+  if($("titleGlobals")) $("titleGlobals").childNodes[0].textContent = t("globalParamsTitle");
+  if($("tipGlobals")) $("tipGlobals").setAttribute("data-tip", t("helpGlobalParams"));
+  if($("lblLength")) $("lblLength").childNodes[0].textContent = t("lengthLabel");
+  if($("tipLength")) $("tipLength").setAttribute("data-tip", t("helpLength"));
+  if($("unitLength")) $("unitLength").textContent = t("meter");
+  if($("lblVd")) $("lblVd").childNodes[0].textContent = t("vdLabel");
+  if($("tipVd")) $("tipVd").setAttribute("data-tip", t("helpVd"));
+  if($("unitVd")) $("unitVd").textContent = t("percent");
+  if($("lblCond")) $("lblCond").childNodes[0].textContent = t("condLabel");
+  if($("tipCond")) $("tipCond").setAttribute("data-tip", t("helpCond"));
+  if($("optCu")) $("optCu").textContent = t("condCu");
+  if($("optAl")) $("optAl").textContent = t("condAl");
+  if($("unitCond")) $("unitCond").textContent = t("condStandard");
+  if($("lblTemp")) $("lblTemp").childNodes[0].textContent = t("tempLabel");
+  if($("tipTemp")) $("tipTemp").setAttribute("data-tip", t("helpTemp"));
+  if($("optTemp30")) $("optTemp30").textContent = t("tempStandard");
+  if($("unitTemp")) $("unitTemp").textContent = t("tempSub");
+  if($("lblMethod")) $("lblMethod").childNodes[0].textContent = t("methodLabel");
+  if($("tipMethod")) $("tipMethod").setAttribute("data-tip", t("helpMethod"));
+  if($("optMethodC")) $("optMethodC").textContent = t("methodC");
+  if($("optMethodE")) $("optMethodE").textContent = t("methodE");
+  if($("optMethodB2")) $("optMethodB2").textContent = t("methodB2");
+  if($("optMethodD2")) $("optMethodD2").textContent = t("methodD2");
+  if($("optMethodB1")) $("optMethodB1").textContent = t("methodB1");
+  if($("optMethodD1")) $("optMethodD1").textContent = t("methodD1");
+  if($("unitMethod")) $("unitMethod").textContent = t("methodSub");
+  if($("lblGroup")) $("lblGroup").childNodes[0].textContent = t("groupLabel");
+  if($("tipGroup")) $("tipGroup").setAttribute("data-tip", t("helpGroup"));
+  if($("unitGroup")) $("unitGroup").textContent = t("groupSub");
+  
+  // Loads Table Header
+  if($("titleLoads")) $("titleLoads").childNodes[0].textContent = t("loadsListTitle");
+  if($("tipLoads")) $("tipLoads").setAttribute("data-tip", t("helpLoadsList"));
+  if($("thName")) $("thName").childNodes[0].textContent = t("thName");
+  if($("tipThName")) $("tipThName").setAttribute("data-tip", t("helpThName"));
+  if($("thGroup")) $("thGroup").childNodes[0].textContent = t("thGroup");
+  if($("tipThGroup")) $("tipThGroup").setAttribute("data-tip", t("helpThGroup"));
+  if($("thLen")) $("thLen").childNodes[0].textContent = t("thLen");
+  if($("tipThLen")) $("tipThLen").setAttribute("data-tip", t("helpThLen"));
+  if($("thItype")) $("thItype").childNodes[0].textContent = t("thItype");
+  if($("tipThItype")) $("tipThItype").setAttribute("data-tip", t("helpThItype"));
+  if($("thValue")) $("thValue").childNodes[0].textContent = t("thValue");
+  if($("tipThValue")) $("tipThValue").setAttribute("data-tip", t("helpThValue"));
+  if($("thPhase")) $("thPhase").childNodes[0].textContent = t("thPhase");
+  if($("tipThPhase")) $("tipThPhase").setAttribute("data-tip", t("helpThPhase"));
+  if($("thLtype")) $("thLtype").childNodes[0].textContent = t("thLtype");
+  if($("tipThLtype")) $("tipThLtype").setAttribute("data-tip", t("helpThLtype"));
+  if($("thPf")) $("thPf").childNodes[0].textContent = t("thPf");
+  if($("tipThPf")) $("tipThPf").setAttribute("data-tip", t("helpThPf"));
+  if($("thEta")) $("thEta").childNodes[0].textContent = t("thEta");
+  if($("tipThEta")) $("tipThEta").setAttribute("data-tip", t("helpThEta"));
+  if($("thKs")) $("thKs").childNodes[0].textContent = t("thKs");
+  if($("tipThKs")) $("tipThKs").setAttribute("data-tip", t("helpThKs"));
+  if($("thKd")) $("thKd").childNodes[0].textContent = t("thKd");
+  if($("tipThKd")) $("tipThKd").setAttribute("data-tip", t("helpThKd"));
+  
+  if($("txtAdd")) $("txtAdd").textContent = t("btnAdd");
+  if($("txtClearAll")) $("txtClearAll").textContent = t("btnClearAll");
+  if($("hintLoads")) $("hintLoads").textContent = t("hintLoads");
+  
+  // Results
+  if($("titleResults")) $("titleResults").childNodes[0].textContent = t("resultsTitle");
+  if($("tipResults")) $("tipResults").setAttribute("data-tip", t("helpResults"));
+  if($("summaryHeadText")) $("summaryHeadText").textContent = t("printSummaryHead");
+  if($("notesTitle")) $("notesTitle").textContent = t("notesTitle");
+  if($("notesText")) $("notesText").innerHTML = t("notesText");
+  
+  // Modal texts
+  if($("mTitle")) $("mTitle").textContent = t("modalTitle");
+  if($("mSub")) $("mSub").textContent = t("modalSubtitle");
+  if($("mConfirm")) $("mConfirm").textContent = t("modalConfirm");
+  
+  // Update select options inside existing table rows
+  Array.from($("loadsBody").querySelectorAll("tr")).forEach(tr=>{
+    const itype = tr.querySelector(".l-itype");
+    if(itype){
+      itype.options[0].text = t("optKw");
+      itype.options[1].text = t("optA");
+    }
+    const phase = tr.querySelector(".l-phase");
+    if(phase){
+      phase.options[0].text = t("opt1p");
+      phase.options[1].text = t("opt2p");
+      phase.options[2].text = t("opt3p");
+    }
+    const ltype = tr.querySelector(".l-ltype");
+    if(ltype){
+      ltype.options[0].text = t("optMotor");
+      ltype.options[1].text = t("optResistive");
+      ltype.options[2].text = t("optCustom");
+    }
+  });
+  
+  // Update print date format
+  try{
+    const localeMap = {"fa":"fa-IR", "en":"en-US", "fr":"fr-FR", "ar":"ar-SA"};
+    $("printDate").textContent = new Date().toLocaleDateString(localeMap[currentLang] || "en-US");
+  }catch(e){
+    $("printDate").textContent = new Date().toLocaleDateString();
+  }
+}
+
+function setLanguage(lang, reloadSamples){
+  if(!TRANSLATIONS[lang]) lang = "fa";
+  currentLang = lang;
+  try{ localStorage.setItem(LANG_STORAGE_KEY, lang); }catch(e){}
+  updateStaticUI();
+  if(reloadSamples){
+    populateInitialData();
+  }
+  recalculate();
+}
+
 
 /* ================= ثابت‌های استاندارد ================= */
 const SECTIONS = [1.5,2.5,4,6,10,16,25,35,50,70,95,120,150,185,240,300];
@@ -757,35 +1878,35 @@ function addLoadRow(preset){
   const pf = p.pf !== undefined ? p.pf : (d.pf !== null ? d.pf : 0.85);
   const eta = p.eta !== undefined ? p.eta : (d.eta !== null ? d.eta : 0.9);
   const custom = ltype === "custom";
-  const group = p.group !== undefined ? p.group : ("ردیف " + (p.rowNum || (Math.ceil(rowCounter / 2))));
+  const group = p.group !== undefined ? p.group : (t("groupPrefix") + (p.rowNum || (Math.ceil(rowCounter / 2))));
   const len = p.len !== undefined ? p.len : ($("gLength") ? $("gLength").value : 20);
 
   const tr = document.createElement("tr");
   tr.innerHTML =
     '<td class="idx">'+rowCounter+'</td>' +
-    '<td class="name-cell" data-label="نام / عنوان"><input type="text" class="l-name" placeholder="مصرف‌کننده '+(p.name||rowCounter)+'" value="'+(p.name!==undefined?p.name:'')+'"></td>' +
-    '<td data-label="ردیف تابلو"><input type="text" class="l-group" placeholder="ردیف ۱" value="'+group+'"></td>' +
-    '<td data-label="طول کابل (متر)"><input type="number" class="l-len" min="1" step="any" value="'+len+'"></td>' +
-    '<td data-label="نوع ورودی"><select class="l-itype">' +
-      '<option value="kw"'+(itype==="kw"?" selected":"")+'>کیلووات (kW)</option>' +
-      '<option value="a"'+(itype==="a"?" selected":"")+'>آمپر (A)</option>' +
+    '<td class="name-cell" data-label="'+t("thName")+'"><input type="text" class="l-name" placeholder="'+t("loadPlaceholder",{n:p.name||rowCounter})+'" value="'+(p.name!==undefined?p.name:'')+'"></td>' +
+    '<td data-label="'+t("thGroup")+'"><input type="text" class="l-group" placeholder="'+t("rowPlaceholder")+'" value="'+group+'"></td>' +
+    '<td data-label="'+t("thLen")+'"><input type="number" class="l-len" min="1" step="any" value="'+len+'"></td>' +
+    '<td data-label="'+t("thItype")+'"><select class="l-itype">' +
+      '<option value="kw"'+(itype==="kw"?" selected":"")+'>'+t("optKw")+'</option>' +
+      '<option value="a"'+(itype==="a"?" selected":"")+'>'+t("optA")+'</option>' +
     '</select></td>' +
-    '<td data-label="مقدار"><input type="number" class="l-value" min="0" step="any" value="'+(p.value!==undefined?p.value:'')+'"></td>' +
-    '<td data-label="فاز"><select class="l-phase">' +
-      '<option value="1p"'+(phase==="1p"?" selected":"")+'>تک‌فاز ۲۳۰V</option>' +
-      '<option value="2p"'+(phase==="2p"?" selected":"")+'>دوفاز ۴۰۰V</option>' +
-      '<option value="3p"'+(phase==="3p"?" selected":"")+'>سه‌فاز ۴۰۰V</option>' +
+    '<td data-label="'+t("thValue")+'"><input type="number" class="l-value" min="0" step="any" value="'+(p.value!==undefined?p.value:'')+'"></td>' +
+    '<td data-label="'+t("thPhase")+'"><select class="l-phase">' +
+      '<option value="1p"'+(phase==="1p"?" selected":"")+'>'+t("opt1p")+'</option>' +
+      '<option value="2p"'+(phase==="2p"?" selected":"")+'>'+t("opt2p")+'</option>' +
+      '<option value="3p"'+(phase==="3p"?" selected":"")+'>'+t("opt3p")+'</option>' +
     '</select></td>' +
-    '<td data-label="نوع بار"><select class="l-ltype">' +
-      '<option value="motor"'+(ltype==="motor"?" selected":"")+'>موتوری / سلفی</option>' +
-      '<option value="resistive"'+(ltype==="resistive"?" selected":"")+'>مقاومتی / حرارتی</option>' +
-      '<option value="custom"'+(custom?" selected":"")+'>سفارشی</option>' +
+    '<td data-label="'+t("thLtype")+'"><select class="l-ltype">' +
+      '<option value="motor"'+(ltype==="motor"?" selected":"")+'>'+t("optMotor")+'</option>' +
+      '<option value="resistive"'+(ltype==="resistive"?" selected":"")+'>'+t("optResistive")+'</option>' +
+      '<option value="custom"'+(custom?" selected":"")+'>'+t("optCustom")+'</option>' +
     '</select></td>' +
-    '<td class="adv-col" data-label="cosφ"><input type="number" class="l-pf" min="0.05" max="1" step="0.01" value="'+pf+'"'+(custom?"":" disabled")+'></td>' +
-    '<td class="adv-col" data-label="η راندمان"><input type="number" class="l-eta" min="0.1" max="1" step="0.01" value="'+eta+'"'+(custom?"":" disabled")+'></td>' +
-    '<td class="adv-col" data-label="ks هم‌زمانی"><input type="number" class="l-ks" min="0.1" max="1" step="0.05" value="'+(p.ks!==undefined?p.ks:1)+'"></td>' +
-    '<td class="adv-col" data-label="kd تقاضا"><input type="number" class="l-kd" min="0.1" max="1" step="0.05" value="'+(p.kd!==undefined?p.kd:1)+'"></td>' +
-    '<td><button class="btn-del" title="حذف ردیف"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button></td>';
+    '<td class="adv-col" data-label="'+t("thPf")+'"><input type="number" class="l-pf" min="0.05" max="1" step="0.01" value="'+pf+'"'+(custom?"":" disabled")+'></td>' +
+    '<td class="adv-col" data-label="'+t("thEta")+'"><input type="number" class="l-eta" min="0.1" max="1" step="0.01" value="'+eta+'"'+(custom?"":" disabled")+'></td>' +
+    '<td class="adv-col" data-label="'+t("thKs")+'"><input type="number" class="l-ks" min="0.1" max="1" step="0.05" value="'+(p.ks!==undefined?p.ks:1)+'"></td>' +
+    '<td class="adv-col" data-label="'+t("thKd")+'"><input type="number" class="l-kd" min="0.1" max="1" step="0.05" value="'+(p.kd!==undefined?p.kd:1)+'"></td>' +
+    '<td><button class="btn-del" title="'+t("btnDelTitle")+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button></td>';
   $("loadsBody").appendChild(tr);
 }
 
@@ -835,8 +1956,8 @@ function calcLoad(row){
   }
   const S = Pelec / pf;
   const Q = Math.sqrt(Math.max(0, S*S - Pelec*Pelec));
-  const name = row.querySelector(".l-name").value.trim() || ("مصرف‌کننده " + row.querySelector(".idx").textContent);
-  const group = (row.querySelector(".l-group").value.trim()) || "ردیف عمومی";
+  const name = row.querySelector(".l-name").value.trim() || t("loadPlaceholder", {n: row.querySelector(".idx").textContent});
+  const group = (row.querySelector(".l-group").value.trim()) || t("defaultGroup");
   const len = numGE0(row.querySelector(".l-len").value, 20);
 
   return {name, group, len, itype, phase, ltype, pf, eta, ks, kd, I, Pelec, S, Q, phi:Math.acos(Math.min(1,Math.max(-1,pf)))*180/Math.PI};
@@ -879,7 +2000,7 @@ function formatCableName(s, phaseMode, material){
   } else if(phaseMode === "2p"){
     return "2×" + s + " + PE " + s + " mm² " + cond;
   } else {
-    return "3×" + s + " mm² (فاز+نول+ارت) " + cond;
+    return "3×" + s + " mm² (L+N+PE) " + cond;
   }
 }
 
@@ -966,24 +2087,23 @@ function recalculate(){
   const IZ = material === "cu" ? IZ_CU : IZ_AL;
 
   const R = $("results");
-  const condNameFa = material==="cu" ? "مس (Cu)" : "آلومینیوم (Al)";
+  const condNameFa = material==="cu" ? t("condCu") : t("condAl");
   const methodShort = ($("gMethod").selectedOptions[0] ? $("gMethod").selectedOptions[0].text : "").split("—")[0].trim();
   $("printMeta").innerHTML =
-    '<span>حالت: <b>'+(isSimpleMode ? "ساده (ضرایب استاندارد)" : "پیشرفته")+'</b></span>' +
-    '<span>طول ورودی تابلو: <b>'+fmt(numGE0($("gLength").value,20),0)+' متر</b></span>' +
-    '<span>افت ولتاژ مجاز: <b>'+fmt(vdAllowed,1)+'٪</b></span>' +
-    '<span>هادی: <b>'+condNameFa+'</b></span>' +
+    '<span>' + (isSimpleMode ? t("modeSimple") : t("modeAdvanced")) + '</span>' +
+    '<span>' + t("lengthLabel") + ': <b>'+fmt(numGE0($("gLength").value,20),0)+' ' + t("meter") + '</b></span>' +
+    '<span>' + t("vdLabel") + ': <b>'+fmt(vdAllowed,1)+'%</b></span>' +
+    '<span>' + t("condLabel") + ': <b>'+condNameFa+'</b></span>' +
     (!isSimpleMode ?
-      ('<span>دمای محیط: <b>'+$("gTemp").value+'°C</b></span>' +
-       '<span>روش نصب: <b>'+methodShort+'</b></span>' +
-       '<span>هم‌آرایی: <b>'+fmt(kg,2)+'</b></span>') : '');
+      ('<span>' + t("tempLabel") + ': <b>'+$("gTemp").value+'°C</b></span>' +
+       '<span>' + t("methodLabel") + ': <b>'+methodShort+'</b></span>' +
+       '<span>' + t("groupLabel") + ': <b>'+fmt(kg,2)+'</b></span>') : '');
 
   if(loads.length === 0){
-    $("printSummaryBody").innerHTML = '<tr><td class="k">مصرفی ثبت نشده است</td><td class="v">—</td></tr>';
+    $("printSummaryBody").innerHTML = '<tr><td class="k">'+t("noLoadsRegistered")+'</td><td class="v">—</td></tr>';
     R.innerHTML =
       '<div class="alerts"><div class="alert '+(invalid?"warn":"ok")+'">'+svgIcon(invalid?"warn":"check")+
-      '<div>'+(invalid ? "یکی از ردیف‌ها مقدار عددی نامعتبر دارد؛ مقدار توان یا جریان را بررسی کنید."
-        : "برای شروع، مصرف‌کننده‌ها را اضافه کرده و مقدار توان یا جریان هرکدام را وارد کنید. محاسبات به‌صورت خودکار و زنده انجام می‌شود.")+'</div></div></div>';
+      '<div>'+(invalid ? t("emptyLoadsWarn") : t("emptyLoadsText"))+'</div></div></div>';
     return;
   }
 
@@ -1014,16 +2134,16 @@ function recalculate(){
   const motorShare = loads.reduce((s,l)=>s+l.I,0) > 0 ? motorLoads.reduce((s,l)=>s+l.I,0)/loads.reduce((s,l)=>s+l.I,0) : 0;
   const maxMotor = motorLoads.reduce((m,l)=>Math.max(m,l.I),0);
   if(InB === null){
-    breakerTxt = "خارج از رنج استاندارد";
-    breakerSub = "جریان طراحی از 630A بیشتر است؛ به تابلو چندپیسته و MCCB قدرتی نیاز دارید.";
+    breakerTxt = t("breakerOutOfRange");
+    breakerSub = t("breakerOutOfRangeSub");
   } else {
     if(motorShare > 0.6 && maxMotor > 0.35*IB) breakerType = "D";
     else if(motorLoads.length > 0) breakerType = "C";
     else breakerType = "B";
-    const dev = InB <= 63 ? "کلید مینیاتوری (MCB)" : "کلید اتوماتیک (MCCB)";
-    const curveTxt = breakerType==="B" ? "B (تریپ 3–5×In — بار مقاومتی)" : breakerType==="C" ? "C (تریپ 5–10×In — بار مختلط/موتوری)" : "D (تریپ 10–20×In — موتوری با جریان راه‌اندازی بالا)";
+    const dev = InB <= 63 ? t("mcb") : t("mccb");
+    const curveTxt = breakerType==="B" ? t("curveB") : breakerType==="C" ? t("curveC") : t("curveD");
     breakerTxt = InB + "A - Type " + breakerType;
-    breakerSub = dev + " — منحنی " + curveTxt + " | شرط In ≥ IB برقرار است (" + fmt(IB,1) + "A)";
+    breakerSub = t("breakerSub", {dev: dev, curve: curveTxt, ib: fmt(IB,1)});
   }
 
   /* سایزینگ کابل اصلی تابلو: حداقل و پیشنهادی */
@@ -1040,8 +2160,7 @@ function recalculate(){
   if(pickSMin){
     cableMainMin = formatCableName(pickSMin, mode, material);
     cableMainRec = formatCableName(pickSRec, mode, material);
-    cableSub = "IZ پایه حداقل: " + fmt(IZ[pickSMin],1) + "A → تصحیح‌شده: " +
-               fmt(IZ[pickSMin]*corr,1) + "A ≥ In=" + InB + "A | سایز پیشنهادی یک پله بالاتر (" + pickSRec + " mm²) برای امنیت حرارتی و افت ولتاژ کمتر توصیه می‌شود.";
+    cableSub = t("cableSub", {izBase: fmt(IZ[pickSMin],1), izCorr: fmt(IZ[pickSMin]*corr,1), inB: InB, rec: pickSRec});
   }
 
   /* ردیف‌بندی در تابلو برق (تجمیع مشخصات بر اساس گروه / ردیف) */
@@ -1061,11 +2180,11 @@ function recalculate(){
 
   const groupRowsHtml = Array.from(groupMap.values()).map(g=>{
     return '<tr>' +
-      '<td data-label="ردیف / گروه تابلو"><b>'+g.name+'</b></td>' +
-      '<td class="num" data-label="تعداد مصرف‌کننده">'+g.count+'</td>' +
-      '<td class="num" data-label="مجموع توان">'+fmt(g.Pelec,2)+' kW</td>' +
-      '<td class="num" data-label="مجموع جریان">'+fmt(g.sumI,2)+' A</td>' +
-      '<td class="num" data-label="مجموع طول کابل">'+fmt(g.totalLen,1)+' متر</td>' +
+      '<td data-label="'+t("thColGroup")+'"><b>'+g.name+'</b></td>' +
+      '<td class="num" data-label="'+t("thColCount")+'">'+g.count+'</td>' +
+      '<td class="num" data-label="'+t("thColPelec")+'">'+fmt(g.Pelec,2)+' kW</td>' +
+      '<td class="num" data-label="'+t("thColSumI")+'">'+fmt(g.sumI,2)+' A</td>' +
+      '<td class="num" data-label="'+t("thColTotalLen")+'">'+fmt(g.totalLen,1)+' '+t("meter")+'</td>' +
     '</tr>';
   }).join("");
 
@@ -1076,109 +2195,109 @@ function recalculate(){
     if(a.type==="3p") chips = '<span class="chip">L1</span><span class="chip">L2</span><span class="chip">L3</span>';
     else if(a.type==="1p") chips = '<span class="chip">L'+(a.phase+1)+'</span><span class="chip dim">N</span>';
     else chips = '<span class="chip">L'+PAIRS[a.pair][0]+'</span><span class="chip">L'+PAIRS[a.pair][1]+'</span>';
-    const typeFa = l.phase==="1p"?"تک‌فاز":(l.phase==="2p"?"دوفاز":"سه‌فاز");
-    const ltFa = l.ltype==="motor"?"موتوری":(l.ltype==="resistive"?"مقاومتی":"سفارشی");
+    const typeFa = l.phase==="1p" ? t("phase1pFa") : (l.phase==="2p" ? t("phase2pFa") : t("phase3pFa"));
+    const ltFa = l.ltype==="motor" ? t("ltMotor") : (l.ltype==="resistive" ? t("ltResistive") : t("ltCustom"));
 
     // محاسبه کابل اختصاصی هر المان
     const elemCable = sizeCable(l.I, l.len/1000, l.pf, l.phase === "1p" ? "1p" : "3p", material, corr, vdAllowed);
-    const elemCableHtml = '<span class="tag-min" title="حداقل مقطع مجاز">'+elemCable.min+' mm²</span> <span class="tag-rec" title="مقطع پیشنهادی">'+elemCable.rec+' mm²</span>';
+    const elemCableHtml = '<span class="tag-min" title="'+t("tagMinTitle")+'">'+elemCable.min+' mm²</span> <span class="tag-rec" title="'+t("tagRecTitle")+'">'+elemCable.rec+' mm²</span>';
 
     return '<tr>' +
-      '<td data-label="مصرف‌کننده">'+l.name+'</td>' +
-      '<td data-label="ردیف تابلو">'+l.group+'</td>' +
-      '<td data-label="نوع">'+typeFa+' / '+ltFa+'</td>' +
-      '<td data-label="فاز تخصیص‌یافته" style="text-align:right">'+chips+'</td>' +
-      '<td class="num" data-label="طول کابل">'+fmt(l.len,0)+' م</td>' +
-      '<td class="num" data-label="جریان">'+fmt(l.I,2)+' A</td>' +
-      '<td class="num" data-label="توان مؤثر">'+fmt(l.Pelec,2)+' kW</td>' +
-      '<td class="num adv-col" data-label="cosφ">'+fmt(l.pf,2)+'</td>' +
-      '<td data-label="کابل (حداقل / پیشنهاد)">'+elemCableHtml+'</td>' +
+      '<td data-label="'+t("thColConsumer")+'">'+l.name+'</td>' +
+      '<td data-label="'+t("thColRow")+'">'+l.group+'</td>' +
+      '<td data-label="'+t("thColType")+'">'+typeFa+' / '+ltFa+'</td>' +
+      '<td data-label="'+t("thColPhase")+'" style="text-align:'+(document.documentElement.dir==='ltr'?'left':'right')+'">'+chips+'</td>' +
+      '<td class="num" data-label="'+t("thColLen")+'">'+fmt(l.len,0)+' '+t("meter")+'</td>' +
+      '<td class="num" data-label="'+t("thColI")+'">'+fmt(l.I,2)+' A</td>' +
+      '<td class="num" data-label="'+t("thColP")+'">'+fmt(l.Pelec,2)+' kW</td>' +
+      '<td class="num adv-col" data-label="'+t("thColPf")+'">'+fmt(l.pf,2)+'</td>' +
+      '<td data-label="'+t("thColCableMinRec")+'">'+elemCableHtml+'</td>' +
     '</tr>';
   }).join("");
 
   /* هشدارها */
   const alerts = [];
-  alerts.push({cls:"ok", icon:"check", txt:"جمع برداری فازورها برای جریان نول و تخصیص حریصانه بارها به فازها برای حداقل عدم تعادل انجام شد."});
-  if(unbalance > 10) alerts.push({cls:"warn", icon:"warn", txt:"عدم تعادل فازها بالاست (" + fmt(unbalance,1) + "٪). توزیع بارهای تک‌فاز را بازنگری کنید."});
-  if(Ineutral > Imax*0.9) alerts.push({cls:"warn", icon:"warn", txt:"جریان نول نزدیک یا بیشتر از جریان فازهاست؛ احتمال هارمونیک یا بارهای شدیداً نامتقارن. از نول هم‌مقطع و کلید 4P استفاده کنید."});
-  if(vdFail) alerts.push({cls:"bad", icon:"err", txt:"افت ولتاژ با بزرگ‌ترین سطح مقطع استاندارد هم بیش از حد مجاز است (" + fmt(pickVd,2) + "٪ > " + fmt(vdAllowed,1) + "٪). طول مسیر را کوتاه کنید، افت مجاز را افزایش دهید یا از کابل با هادی بهتر استفاده کنید."});
-  else if(pickSMin && pickVd > vdAllowed*0.8) alerts.push({cls:"warn", icon:"warn", txt:"افت ولتاژ کابل اصلی (" + fmt(pickVd,2) + "٪) به حد مجاز نزدیک است؛ در صورت امکان از مقطع پیشنهادی ("+pickSRec+" mm²) استفاده کنید."});
-  if(InB !== null && IZ[pickSMin]*corr < InB) alerts.push({cls:"bad", icon:"err", txt:"جریان مجاز کابل پس از ضرایب تصحیح کمتر از رنج کلید است؛ حفاظت اضافه‌بار برقرار نیست."});
-  if(invalid) alerts.push({cls:"warn", icon:"warn", txt:"یک یا چند ردیف مقدار نامعتبر دارند و در محاسبات لحاظ نشدند."});
-  if(!isSimpleMode && kg < 1) alerts.push({cls:"warn", icon:"warn", txt:"ضریب هم‌آرایی " + fmt(kg,2) + " اعمال شد؛ مطمئن شوید با تعداد واقعی مدارهای مجاور سازگار است."});
+  alerts.push({cls:"ok", icon:"check", txt: t("alertPhasorOk")});
+  if(unbalance > 10) alerts.push({cls:"warn", icon:"warn", txt: t("alertUnbalanceHigh", {val: fmt(unbalance,1)})});
+  if(Ineutral > Imax*0.9) alerts.push({cls:"warn", icon:"warn", txt: t("alertNeutralHigh")});
+  if(vdFail) alerts.push({cls:"bad", icon:"err", txt: t("alertVdFail", {vd: fmt(pickVd,2), max: fmt(vdAllowed,1)})});
+  else if(pickSMin && pickVd > vdAllowed*0.8) alerts.push({cls:"warn", icon:"warn", txt: t("alertVdNear", {vd: fmt(pickVd,2), rec: pickSRec})});
+  if(InB !== null && IZ[pickSMin]*corr < InB) alerts.push({cls:"bad", icon:"err", txt: t("alertIzLessIn")});
+  if(invalid) alerts.push({cls:"warn", icon:"warn", txt: t("alertInvalidRows")});
+  if(!isSimpleMode && kg < 1) alerts.push({cls:"warn", icon:"warn", txt: t("alertGroupApplied", {kg: fmt(kg,2)})});
 
   /* رندر نتایج */
   const tile = (label,val,unit,color,cls)=>'<div class="tile '+(cls||"")+'" style="--bar:'+(color||"var(--accent)")+'"><div class="t-label">'+label+'</div><div class="t-value">'+val+'</div><div class="t-unit">'+unit+'</div></div>';
 
-  const vdBase = mode==="3p" ? "نسبت به 400V (مدل سه‌فاز)" : "نسبت به 230V (مدل تک‌فاز)";
+  const vdBase = mode==="3p" ? t("vdRef3p") : t("vdRef1p");
 
   R.innerHTML =
     '<div class="tiles">' +
-      tile("جریان فاز L1", fmt(Iphase[0],1), "آمپر", "var(--accent)") +
-      tile("جریان فاز L2", fmt(Iphase[1],1), "آمپر", "var(--accent-2)") +
-      tile("جریان فاز L3", fmt(Iphase[2],1), "آمپر", "var(--c-l3)") +
-      tile("جریان سیم نول (N)", fmt(Ineutral,1), "آمپر", Ineutral>Imax*0.9?"var(--warn)":"var(--c-n)", Ineutral>Imax?"bad":(Ineutral>Imax*0.9?"warn":"")) +
+      tile(t("currentL1"), fmt(Iphase[0],1), t("ampere"), "var(--accent)") +
+      tile(t("currentL2"), fmt(Iphase[1],1), t("ampere"), "var(--accent-2)") +
+      tile(t("currentL3"), fmt(Iphase[2],1), t("ampere"), "var(--c-l3)") +
+      tile(t("currentN"), fmt(Ineutral,1), t("ampere"), Ineutral>Imax*0.9?"var(--warn)":"var(--c-n)", Ineutral>Imax?"bad":(Ineutral>Imax*0.9?"warn":"")) +
     '</div>' +
     '<div class="metrics">' +
-      '<div class="metric"><span class="m-label">عدم تعادل فازها</span><span class="m-value"><em>'+fmt(unbalance,1)+' %</em></span></div>' +
-      '<div class="metric"><span class="m-label">جریان طراحی تابلو (IB = بیشینه فاز)</span><span class="m-value">'+fmt(IB,1)+' A</span></div>' +
-      '<div class="metric"><span class="m-label">توان فعال کل (الکتریکی)</span><span class="m-value">'+fmt(Pt,2)+' kW</span></div>' +
-      '<div class="metric"><span class="m-label">توان ظاهری کل</span><span class="m-value">'+fmt(St,2)+' kVA</span></div>' +
-      '<div class="metric"><span class="m-label">توان راکتیو کل</span><span class="m-value">'+fmt(Qt,2)+' kVAr</span></div>' +
-      '<div class="metric"><span class="m-label">ضریب توان کل</span><span class="m-value">'+fmt(pfTotal,3)+'</span></div>' +
-      '<div class="metric"><span class="m-label">افت ولتاژ واقعی کابل ورودی</span><span class="m-value">'+fmt(pickVd,2)+' % <em style="font-size:10px;color:var(--muted)">'+vdBase+'</em></span></div>' +
-      '<div class="metric"><span class="m-label">حد مجاز افت ولتاژ</span><span class="m-value">'+fmt(vdAllowed,1)+' %</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("unbalance")+'</span><span class="m-value"><em>'+fmt(unbalance,1)+' %</em></span></div>' +
+      '<div class="metric"><span class="m-label">'+t("designCurrent")+'</span><span class="m-value">'+fmt(IB,1)+' A</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("activePower")+'</span><span class="m-value">'+fmt(Pt,2)+' kW</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("apparentPower")+'</span><span class="m-value">'+fmt(St,2)+' kVA</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("reactivePower")+'</span><span class="m-value">'+fmt(Qt,2)+' kVAr</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("powerFactor")+'</span><span class="m-value">'+fmt(pfTotal,3)+'</span></div>' +
+      '<div class="metric"><span class="m-label">'+t("actualVd")+'</span><span class="m-value">'+fmt(pickVd,2)+' % <em style="font-size:10px;color:var(--muted)">'+vdBase+'</em></span></div>' +
+      '<div class="metric"><span class="m-label">'+t("allowedVd")+'</span><span class="m-value">'+fmt(vdAllowed,1)+' %</span></div>' +
     '</div>' +
     '<div class="pickup">' +
-      '<div class="pick"><h3>سایز نهایی کابل اصلی ورودی تابلو' + tipBtn("نمایش سایز کابل به دو صورت حداقل مجاز طبق استاندارد و سایز پیشنهادی مهندسی با حاشیه اطمینان.") + '</h3>' +
-        '<div class="p-main" style="font-size:16px;line-height:1.7"><span style="color:var(--warn)">حداقل: </span>'+cableMainMin+'<br><span style="color:var(--accent)">پیشنهاد: </span>'+cableMainRec+'</div>' +
+      '<div class="pick"><h3>'+t("mainCableTitle") + tipBtn(t("helpMainCable")) + '</h3>' +
+        '<div class="p-main" style="font-size:16px;line-height:1.7"><span style="color:var(--warn)">'+t("lblMinimum")+'</span>'+cableMainMin+'<br><span style="color:var(--accent)">'+t("lblRecommended")+'</span>'+cableMainRec+'</div>' +
         '<div class="p-sub">'+cableSub+'</div>' +
       '</div>' +
-      '<div class="pick"><h3>کلید حفاظتی اصلی' + tipBtn("کوچک‌ترین رنج استاندارد بالای جریان طراحی؛ تیپ B برای بار مقاومتی، C برای بار مختلط/موتوری و D برای جریان راه‌اندازی سنگین موتورها.") + '</h3><div class="p-main">'+breakerTxt+'</div><div class="p-sub">'+breakerSub+'</div></div>' +
+      '<div class="pick"><h3>'+t("mainBreakerTitle") + tipBtn(t("helpMainBreaker")) + '</h3><div class="p-main">'+breakerTxt+'</div><div class="p-sub">'+breakerSub+'</div></div>' +
     '</div>' +
     (alerts.length ? '<div class="alerts" style="margin-bottom:18px">'+alerts.map(a=>'<div class="alert '+a.cls+'">'+svgIcon(a.icon)+'<div>'+a.txt+'</div></div>').join("")+'</div>' : "") +
 
     /* جدول تجمیعی ردیف‌های تابلو */
-    '<h2 style="font-size:13px;margin:10px 0 10px;color:var(--accent)">خلاصه ردیف‌بندی در تابلو برق' + tipBtn("مجموع توان، جریان و متراژ سیم هر ردیف تابلو برق به صورت مجزا.") + '</h2>' +
-    '<div class="tbl-scroll"><table class="group-summary"><thead><tr><th>ردیف / گروه تابلو</th><th>تعداد مصرف‌کننده</th><th>مجموع توان</th><th>مجموع جریان</th><th>مجموع طول کابل</th></tr></thead><tbody>' +
+    '<h2 style="font-size:13px;margin:10px 0 10px;color:var(--accent)">'+t("groupSummaryTitle") + tipBtn(t("helpGroupSummary")) + '</h2>' +
+    '<div class="tbl-scroll"><table class="group-summary"><thead><tr><th>'+t("thColGroup")+'</th><th>'+t("thColCount")+'</th><th>'+t("thColPelec")+'</th><th>'+t("thColSumI")+'</th><th>'+t("thColTotalLen")+'</th></tr></thead><tbody>' +
     groupRowsHtml + '</tbody></table></div>' +
 
     /* جدول المان‌ها همراه با کابل هر المان */
-    '<h2 style="font-size:13px;margin:16px 0 10px;color:var(--accent)">تخصیص بارها به فازها و قطر سیم هر مصرف‌کننده' + tipBtn("سایز کابل هر مصرف‌کننده به تفکیک بر مبنای جریان و طول کابل واردشده محاسبه شده است.") + '</h2>' +
-    '<div class="tbl-scroll"><table class="result"><thead><tr><th>مصرف‌کننده</th><th>ردیف تابلو</th><th>نوع</th><th>فاز</th><th>طول کابل</th><th>جریان</th><th>توان مؤثر</th><th class="adv-col">cosφ</th><th>سایز کابل (حداقل / پیشنهاد)</th></tr></thead><tbody>' +
+    '<h2 style="font-size:13px;margin:16px 0 10px;color:var(--accent)">'+t("elementAllocationTitle") + tipBtn(t("helpElementAllocation")) + '</h2>' +
+    '<div class="tbl-scroll"><table class="result"><thead><tr><th>'+t("thColConsumer")+'</th><th>'+t("thColRow")+'</th><th>'+t("thColType")+'</th><th>'+t("thColPhase")+'</th><th>'+t("thColLen")+'</th><th>'+t("thColI")+'</th><th>'+t("thColP")+'</th><th class="adv-col">'+t("thColPf")+'</th><th>'+t("thColCableMinRec")+'</th></tr></thead><tbody>' +
     allocRows + '</tbody></table></div>';
 
   /* جدول خلاصه نتایج — مخصوص گزارش چاپی/PDF */
   const pRow = (k, v, maj) => '<tr'+(maj?' class="major"':'')+'><td class="k">'+k+'</td><td class="v">'+v+'</td></tr>';
   $("printSummaryBody").innerHTML =
-    pRow("جریان فاز L1", fmt(Iphase[0],2)+" A", true) +
-    pRow("جریان فاز L2", fmt(Iphase[1],2)+" A", true) +
-    pRow("جریان فاز L3", fmt(Iphase[2],2)+" A", true) +
-    pRow("جریان سیم نول (N)", fmt(Ineutral,2)+" A", true) +
-    pRow("درصد عدم تعادل فازها", fmt(unbalance,1)+" %") +
-    pRow("جریان طراحی تابلو (IB)", fmt(IB,2)+" A", true) +
-    pRow("توان فعال / ظاهری / راکتیو کل", fmt(Pt,2)+" kW | "+fmt(St,2)+" kVA | "+fmt(Qt,2)+" kVAr") +
-    pRow("ضریب توان کل", fmt(pfTotal,3)) +
-    pRow("افت ولتاژ واقعی کابل ورودی / حد مجاز", fmt(pickVd,2)+" % / "+fmt(vdAllowed,1)+" %") +
-    pRow("کابل اصلی ورودی (حداقل مجاز)", cableMainMin, true) +
-    pRow("کابل اصلی ورودی (پیشنهادی)", cableMainRec, true) +
-    pRow("کلید حفاظتی اصلی", breakerTxt, true);
+    pRow(t("prowL1"), fmt(Iphase[0],2)+" A", true) +
+    pRow(t("prowL2"), fmt(Iphase[1],2)+" A", true) +
+    pRow(t("prowL3"), fmt(Iphase[2],2)+" A", true) +
+    pRow(t("prowN"), fmt(Ineutral,2)+" A", true) +
+    pRow(t("prowUnbalance"), fmt(unbalance,1)+" %") +
+    pRow(t("prowIb"), fmt(IB,2)+" A", true) +
+    pRow(t("prowPowers"), fmt(Pt,2)+" kW | "+fmt(St,2)+" kVA | "+fmt(Qt,2)+" kVAr") +
+    pRow(t("prowPf"), fmt(pfTotal,3)) +
+    pRow(t("prowVd"), fmt(pickVd,2)+" % / "+fmt(vdAllowed,1)+" %") +
+    pRow(t("prowCableMin"), cableMainMin, true) +
+    pRow(t("prowCableRec"), cableMainRec, true) +
+    pRow(t("prowBreaker"), breakerTxt, true);
 }
 
 /* ================= رویدادها ================= */
 $("btnAdd").addEventListener("click", ()=>{
   addLoadRow();
   recalculate();
-  toast("مصرف‌کننده جدید به لیست اضافه شد.", "ok");
+  toast(t("toastAdded"), "ok");
 });
 
 $("btnClearAll").addEventListener("click", ()=>{
-  if(confirm("آیا از پاک‌سازی تمام مصرف‌کننده‌ها اطمینان دارید؟")){
+  if(confirm(t("confirmClear"))){
     $("loadsBody").innerHTML = "";
     rowCounter = 0;
     addLoadRow();
     recalculate();
-    toast("تمام مصرف‌کننده‌ها پاک‌سازی شدند.", "ok");
+    toast(t("toastCleared"), "ok");
   }
 });
 
@@ -1190,9 +2309,9 @@ $("loadsBody").addEventListener("click", e=>{
       btn.closest("tr").remove();
       tbody.querySelectorAll("tr").forEach((tr,i)=>{ tr.querySelector(".idx").textContent = i+1; });
       recalculate();
-      toast("ردیف مصرف‌کننده حذف شد.", "ok");
+      toast(t("toastDeleted"), "ok");
     } else {
-      toast("وجود حداقل یک مصرف‌کننده در لیست اجباری است؛ آخرین ردیف قابل حذف نیست.", "warn", 4200);
+      toast(t("toastMinRows"), "warn", 4200);
     }
   }
 });
@@ -1220,9 +2339,9 @@ $("btnCalc").addEventListener("click", ()=>{
     if(!isFinite(x) || x <= 0) bads++;
   }
   recalculate();
-  if(bads > 0) toast("مقدار " + bads + " ردیف نامعتبر است؛ مقدار باید عددی بزرگ‌تر از صفر باشد.", "err", 4200);
-  else if(empties > 0) toast("برای " + empties + " مصرف‌کننده مقداری وارد نشده و از محاسبات کنار گذاشته شد.", "warn", 4200);
-  else toast("محاسبات با موفقیت انجام و نتایج به‌روزرسانی شد.", "ok");
+  if(bads > 0) toast(t("toastCalcBad", {n: bads}), "err", 4200);
+  else if(empties > 0) toast(t("toastCalcEmpty", {n: empties}), "warn", 4200);
+  else toast(t("toastCalcSuccess"), "ok");
 });
 
 $("btnPrint").addEventListener("click", ()=>window.print());
@@ -1233,10 +2352,10 @@ function setSimpleMode(enabled){
   isSimpleMode = !!enabled;
   if(isSimpleMode){
     document.body.classList.add("mode-simple");
-    $("modeLabel").textContent = "حالت: ساده";
+    $("modeLabel").textContent = t("modeSimple");
   } else {
     document.body.classList.remove("mode-simple");
-    $("modeLabel").textContent = "حالت: پیشرفته";
+    $("modeLabel").textContent = t("modeAdvanced");
   }
   try{ localStorage.setItem(MODE_KEY, isSimpleMode ? "1" : "0"); }catch(e){}
   recalculate();
@@ -1248,16 +2367,16 @@ setSimpleMode(savedMode);
 
 $("btnMode").addEventListener("click", ()=>{
   setSimpleMode(!isSimpleMode);
-  toast("حالت محاسبه به «" + (isSimpleMode ? "ساده" : "پیشرفته") + "» تغییر یافت.", "ok");
+  toast(t("toastModeSwitched", {mode: isSimpleMode ? t("modeSimple").split(":")[1].trim() : t("modeAdvanced").split(":")[1].trim()}), "ok");
 });
 
 /* ================= تم روشن / تیره ================= */
 const THEME_KEY = "wc-theme";
-function applyTheme(t){
-  document.documentElement.setAttribute("data-theme", t);
+function applyTheme(themeName){
+  document.documentElement.setAttribute("data-theme", themeName);
   const meta = $("metaThemeColor");
-  if(meta) meta.setAttribute("content", t === "light" ? "#eef2f6" : "#0a0f14");
-  $("themeLabel").textContent = t === "light" ? "تم تیره" : "تم روشن";
+  if(meta) meta.setAttribute("content", themeName === "light" ? "#eef2f6" : "#0a0f14");
+  $("themeLabel").textContent = themeName === "light" ? t("themeDark") : t("themeLight");
 }
 let theme = null;
 try{ theme = localStorage.getItem(THEME_KEY); }catch(err){}
@@ -1278,14 +2397,63 @@ if("serviceWorker" in navigator){
   });
 }
 
-/* ================= راه‌اندازی اولیه با داده نمونه ================= */
-$("printDate").textContent = new Date().toLocaleDateString("fa-IR");
-addLoadRow({name:"پمپ آب شركت", itype:"kw", value:5.5, phase:"3p", ltype:"motor", group:"ردیف ۱ - موتوری", len:25});
-addLoadRow({name:"هیتر كانال", itype:"kw", value:2, phase:"1p", ltype:"resistive", group:"ردیف ۲ - حرارتی", len:15});
-addLoadRow({name:"فن ایندوکشن", itype:"kw", value:2.2, phase:"3p", ltype:"motor", group:"ردیف ۱ - موتوری", len:30});
-addLoadRow({name:"دستگاه جوش MIG", itype:"kw", value:6, phase:"2p", ltype:"custom", pf:0.6, eta:1, ks:0.6, group:"ردیف ۳ - کارگاهی", len:20});
-addLoadRow({name:"روشنایی LED سالن", itype:"kw", value:0.8, phase:"1p", ltype:"resistive", group:"ردیف ۴ - روشنایی", len:45});
+/* ================= داده‌های نمونه و مدال زبان ================= */
+function populateInitialData(){
+  $("loadsBody").innerHTML = "";
+  rowCounter = 0;
+  addLoadRow({name: t("sampleMotor"), itype:"kw", value:5.5, phase:"3p", ltype:"motor", group: t("groupMotor"), len:25});
+  addLoadRow({name: t("sampleHeater"), itype:"kw", value:2, phase:"1p", ltype:"resistive", group: t("groupHeater"), len:15});
+  addLoadRow({name: t("sampleFan"), itype:"kw", value:2.2, phase:"3p", ltype:"motor", group: t("groupMotor"), len:30});
+  addLoadRow({name: t("sampleWelder"), itype:"kw", value:6, phase:"2p", ltype:"custom", pf:0.6, eta:1, ks:0.6, group: t("groupWorkshop"), len:20});
+  addLoadRow({name: t("sampleLed"), itype:"kw", value:0.8, phase:"1p", ltype:"resistive", group: t("groupLighting"), len:45});
+}
+
+// مدیریت مدال زبان
+let selectedModalLang = currentLang;
+const modalEl = $("langModal");
+const langButtons = modalEl.querySelectorAll(".lang-opt-btn");
+
+function showLangModal(){
+  selectedModalLang = currentLang;
+  langButtons.forEach(btn=>{
+    if(btn.getAttribute("data-code") === selectedModalLang) btn.classList.add("selected");
+    else btn.classList.remove("selected");
+  });
+  modalEl.classList.add("active");
+}
+
+function hideLangModal(){
+  modalEl.classList.remove("active");
+}
+
+langButtons.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    langButtons.forEach(b=>b.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedModalLang = btn.getAttribute("data-code");
+  });
+});
+
+$("btnConfirmLang").addEventListener("click", ()=>{
+  hideLangModal();
+  try{ localStorage.setItem(LANG_CHOSEN_KEY, "1"); }catch(e){}
+  const changed = (selectedModalLang !== currentLang);
+  setLanguage(selectedModalLang, changed);
+});
+
+$("btnLang").addEventListener("click", showLangModal);
+
+// راه‌اندازی اولیه:
+let savedLang = null;
+try{ savedLang = localStorage.getItem(LANG_STORAGE_KEY); }catch(e){}
+if(savedLang && TRANSLATIONS[savedLang]) currentLang = savedLang;
+
+updateStaticUI();
+populateInitialData();
 recalculate();
+
+// کاربر بلافاصله بعد از بازکردن index.html یک مدال برای انتخاب زبان ببیند
+showLangModal();
 </script>
 </body>
 </html>

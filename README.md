@@ -1,113 +1,129 @@
-# ⚡ محاسبه‌گر تابلو برق صنعتی و سایزینگ کابل (Industrial Switchboard & Cable Sizing Calculator)
+# ⚡ محاسبه‌گر تابلو برق و سایزینگ کابل | Switchboard & Cable Sizing Calculator
 
-یک وب‌اپلیکیشن مستقل، سریع و بدون نیاز به نصب برای مهندسان برق، طراحان تاسیسات الکتریکی و تابلو‌سازان صنعتی.  
-این برنامه امکان محاسبه دقیق بارها، سایزینگ کابل‌های ورودی و خروجی، بررسی افت ولتاژ، بالانس هوشمند فازها، محاسبه فازوری جریان سیم نول و انتخاب کلید حفاظتی را مطابق با الزامات استاندارد بین‌المللی **IEC 60364** فراهم می‌آورد.
-
-تمامی محاسبات به صورت بلادرنگ و صددرصد در سمت کاربر (Client-side) درون مرورگر اجرا می‌شوند و برنامه به صورت آفلاین و **PWA** نیز قابل استفاده است.
+[**فارسی (Persian)**](#-فارسی) • [**English**](#-english) • [**Français**](#-français) • [**العربية**](#-العربية)
 
 ---
 
-## 🚀 ویژگی‌های کلیدی (Key Features)
+## 🇮🇷 فارسی
 
-### ۱. سایزینگ کابل اصلی و خطوط خروجی (حداقل و پیشنهادی)
-- **سایز حداقل (Minimum):** محاسبه حداقل سطح مقطع استاندارد مجاز بر اساس ظرفیت جریان حرارتی هادی ($I_z$) با احتساب کلیه ضرایب تصحیح محیطی و شرط افت ولتاژ مجاز.
-- **سایز پیشنهادی (Recommended):** پیشنهاد یک سایز استاندارد بالاتر با ایجاد حاشیه اطمینان مهندسی برای مدیریت شوک راه‌اندازی بارهای موتوری، تغییرات حرارتی و کاهش افت ولتاژ.
-- **محاسبه مجزا برای هر مصرف‌کننده:** محاسبه اختصاصی حداقل و پیشنهادی مقطع سیم برای تک‌تک المان‌ها با در نظر گرفتن متراژ کابل مجزای هر المان.
-- پشتیبانی کامل از هادی‌های **مسی (Cu)** و **آلومینیومی (Al)** بر اساس جداول استاندارد IEC 60364-5-52.
+### معرفی
+محاسبه‌گر تابلو برق صنعتی یک وب‌اپلیکیشن کلاینت-ساید، سریع، آفلاین و بدون نیاز به نصب است که بر مبنای استاندارد بین‌المللی **IEC 60364** طراحی شده است. این نرم‌افزار امکان سایزینگ کابل‌های ورودی و خروجی، بررسی افت ولتاژ، بالانس هوشمند فازها، محاسبه فازوری جریان نول و انتخاب کلید حفاظتی را برای مهندسان برق و تابلوسازان فراهم می‌آورد.
 
-### ۲. حالت دوگانه: ساده و پیشرفته (Simple / Advanced Mode)
-- **حالت ساده (Simple Mode):** مناسب برای محاسبات سریع؛ پارامترها و ضرایب پیچیده (دما، روش نصب، ضریب هم‌آرایی، کسینوس فی، راندمان، ضرایب هم‌زمانی $k_s$ و تقاضا $k_d$) پنهان شده و پیش‌فرض‌های ایمن استاندارد ($30^\circ\text{C}$، روش C، ضرایب ۱ و مقادیر متناسب با نوع بار) اعمال می‌شوند.
-- **حالت پیشرفته (Advanced Mode):** دسترسی کامل به کلیه ضرایب تصحیح از جمله دمای محیط (۱۰ تا ۶۰ درجه)، روش‌های متنوع نصب کابل (سینی، نردبان کابل، لوله توکار، لوله روکار، دفنی در خاک)، ضریب هم‌آرایی، و ویرایش دقیق $\cos\varphi$ و $\eta$.
+### ویژگی‌های کلیدی
+- **پشتیبانی از ۴ زبان:** فارسی، انگلیسی، فرانسوی و عربی با تشخیص خودکار جهت صفحه (RTL/LTR) و مودال انتخاب زبان در ابتدای ورود.
+- **نمایش سایز کابل به صورت حداقل و پیشنهادی:** حداقل مقطع بر اساس جریان مجاز ($I_z$) و مقطع پیشنهادی با حاشیه اطمینان مهندسی برای مدیریت شوک استارت بارها و افت ولتاژ کمتر.
+- **سایزینگ مجزای هر مصرف‌کننده:** محاسبه اختصاصی کابل مورد نیاز هر المان بر مبنای متراژ کابل اختصاصی آن.
+- **حالت ساده و پیشرفته (Simple / Advanced):** امکان پنهان‌سازی پارامترهای پیشرفته (دما، روش نصب، ضرایب هم‌آرایی، کسینوس فی، راندمان، $k_s$ و $k_d$) برای تسریع کار با مقادیر امن استاندارد.
+- **ردیف‌بندی در تابلو برق:** گروه‌بندی مصرف‌کننده‌ها بر اساس ردیف تابلو و تولید جدول تجمیعی توان (kW)، جریان (A) و طول کل کابل (متر).
+- **بالانس خودکار فازها و جریان برداری نول:** الگوریتم بهینه‌سازی حریصانه برای کاهش عدم تعادل فازها و جمع برداری فازورهای جریان برای محاسبه نول.
+- **انتخاب هوشمند کلید اصلی:** انتخاب رنج نامی کلیدهای مینیاتوری (MCB) و اتوماتیک (MCCB) تا رنج 630A و تیپ منحنی قطع (B، C، D).
+- **گزارش چاپی و PDF مهندسی:** استایل اختصاصی پرینت در قطع A4 با جدول‌بندی دقیق و تاریخ روز.
+- **پاک‌سازی سریع و تم دوگانه:** دکمه ریست سریع جدول و امکان انتخاب تم تاریک یا روشن با ذخیره در حافظه مرورگر.
 
-### ۳. ردیف‌بندی در تابلو برق (Switchboard Rows / Grouping)
-- امکان گروه‌بندی و تعیین شماره/نام ردیف در تابلو برق برای هر مصرف‌کننده (مثلاً ردیف ۱، فیدر روشنایی، کارگاه).
-- تولید جدول تجمیعی اختصاصی شامل **مجموع توان مصرفی (kW)**، **مجموع جریان طراحی (A)** و **مجموع متراژ کابل (متر)** به تفکیک هر ردیف از تابلو.
-
-### ۴. بالانس خودکار فازها و محاسبه برداری نول (Phasor Balance & Neutral Current)
-- بهره‌گیری از الگوریتم بهینه‌سازی حریصانه برای تقسیم بارهای تک‌فاز و دوفاز میان فازهای L1, L2, L3 جهت دستیابی به کمترین درصد عدم تقارن فاز ($Unbalance\%$).
-- محاسبه دقیق جریان عبوری از سیم نول با استفاده از **جمع فازوری (Vector Phasor Sum)** با اعمال زوایای فاز $0^\circ$، $-120^\circ$ و $+120^\circ$ و زاویه اختلاف فاز ولتاژ-جریان هر بار.
-
-### ۵. انتخاب هوشمند کلید حفاظتی اصلی (Main Circuit Breaker)
-- انتخاب کوچک‌ترین رنج نامی استاندارد بالای جریان طراحی ($I_B$) تا رنج 630A برای کلیدهای مینیاتوری (**MCB**) و اتوماتیک (**MCCB**).
-- تشخیص و توصیه هوشمند تیپ منحنی قطع حرارتی-مغناطیسی (**Type B**, **Type C**, **Type D**) متناسب با سهم بارهای موتوری و شدت جریان راه‌اندازی.
-
-### ۶. قالب گزارش چاپی و PDF مهندسی
-- بهینه‌سازی اختصاصی صفحه برای خروجی پرینت و ذخیره به عنوان PDF در سایز استاندارد A4.
-- درج مشخصات فنی پروژه، تاریخ روز خورشیدی، جدول خلاصه نتایج و جداول بارهای تابلو با خطوط مشخص و طراحی مناسب گزارش‌های رسمی کارگاهی.
-
-### ۷. امکانات رابط کاربری و تجربه کاربری (UI/UX)
-- کلید **پاک‌سازی همه (Clear All)** با پیام تایید جهت ریست سریع جدول و آغاز پروژه جدید.
-- سیستم تم تیره و روشن (**Dark / Light Theme**) متناسب با نور محیط کار.
-- امکان نصب اپلیکیشن به صورت وب‌اپ پیش‌رونده (**PWA**) روی موبایل و دسکتاپ با اجرای کاملاً آفلاین.
-- طراحی واکنش‌گرا و بهینه‌شده برای صفحات موبایل و تبلت.
+### نحوه اجرا
+1. کلون کردن مخزن:
+   ```bash
+   git clone https://github.com/username/repository-name.git
+   ```
+2. باز کردن مستقیم فایل `index.html` در مرورگر یا میزبانی با یک کلیک روی **GitHub Pages**.
 
 ---
 
-## 📂 ساختار فایل‌های پروژه (Repository Structure)
+## 🇬🇧 English
 
-پروژه به صورت کامپکت و یکپارچه در ریشه مخزن سازمان‌دهی شده است:
+### Overview
+The Industrial Switchboard & Cable Sizing Calculator is a lightweight, standalone, fully client-side PWA designed in compliance with the **IEC 60364** international standard. It assists electrical engineers, facility designers, and switchboard builders in calculating circuit currents, sizing main and outgoing conductors, checking voltage drops, balancing phase loads, and selecting circuit breakers.
 
-```text
-├── index.html               # کل رابط کاربری، استایل‌ها، منطق محاسبات مهندسی و گزارش چاپی
-├── manifest.webmanifest     # مانیفست وب‌اپلیکیشن (تنظیمات PWA و نصب)
-├── sw.js                    # سرویس ورکر جهت کش‌کردن منابع و اجرای آفلاین
-├── icon-192.png             # آیکون برنامه (سایز ۱۹۲ پیکسل)
-├── icon-512.png             # آیکون برنامه (سایز ۵۱۲ پیکسل)
-└── README.md                # مستندات و راهنمای کامل پروژه
-```
+### Key Features
+- **4 Language Support:** Persian, English, French, and Arabic with full RTL/LTR bidirectional support and an initial language selection modal.
+- **Minimum & Recommended Cable Sizing:** Computes the code-compliant minimum section ($I_z$) and a recommended section with an engineering safety margin for motor starting and voltage drop mitigation.
+- **Per-Consumer Cable Sizing:** Dedicated cable calculation for each load based on individual cable lengths.
+- **Simple / Advanced Mode Toggle:** Fast mode bypasses complex derating parameters (temperature, installation method, grouping, $\cos\varphi$, $\eta$, $k_s$, $k_d$) using safe standardized values.
+- **Switchboard Row Classification:** Groups loads by board rows/feeders and aggregates total active power (kW), current (A), and total cable run length (m).
+- **Phase Balancing & Vector Neutral Phasor Calculation:** Greedy optimization algorithm for minimum phase unbalance ($Unbalance\%$) and exact vector summation for neutral current.
+- **Main Breaker Selection:** Standard rating selection for MCB and MCCB breakers up to 630A with curve tripping detection (Type B, C, D).
+- **Engineering PDF & Print Layout:** Professional A4 printing stylesheet with clean tables, metadata, and local date.
+- **Clear All & Dark/Light Themes:** One-click table reset and persistent theme toggling.
 
----
-
-## 📐 مبانی و فرمول‌های محاسباتی (Technical Formulations)
-
-### ۱. محاسبه جریان بارها:
-- **تک‌فاز (230V):**
-  $$I = \frac{P}{V_{ph} \cdot \cos\varphi \cdot \eta}$$
-- **دوفاز (400V):**
-  $$I = \frac{P}{V_{LL} \cdot \cos\varphi \cdot \eta}$$
-- **سه‌فاز متوازن (400V):**
-  $$I = \frac{P}{\sqrt{3} \cdot V_{LL} \cdot \cos\varphi \cdot \eta}$$
-
-### ۲. محاسبه افت ولتاژ ($\Delta U\%$):
-$$\Delta U\% = \frac{b \cdot I \cdot L \cdot (R \cdot \cos\varphi + X \cdot \sin\varphi)}{V_{base}} \times 100$$
-- $b = 1$ برای مدارهای سه‌فاز و $b = 2$ برای مدارهای تک‌فاز
-- مقاومت هادی: مس $\rho = 0.0225\ \Omega\cdot\text{mm}^2/\text{m}$ و آلومینیوم $\rho = 0.034\ \Omega\cdot\text{mm}^2/\text{m}$
-- راکتانس خط: $X = 0.08\ \Omega/\text{km}$
-
-### ۳. شرط ظرفیت حرارتی و انتخاب کابل:
-$$I_z' = I_z \times (k_t \times k_m \times k_g)$$
-شرط اساسی حفاظت:
-$$I_B \le I_n \le I_z' \quad \text{و} \quad \Delta U\% \le \Delta U_{allow}\%$$
+### How to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/repository-name.git
+   ```
+2. Open `index.html` directly in any web browser or deploy directly to **GitHub Pages**.
 
 ---
 
-## 💻 نحوه اجرا و استفاده (How to Run)
+## 🇫🇷 Français
 
-این پروژه نیاز به هیچ فریم‌ورک، سرور (مانند Node.js، Apache، Nginx) یا بیلد (Build) ندارد:
+### Présentation
+Le Calculateur de Tableau Électrique Industriel est une application web progressive (PWA) autonome, rapide et sans dépendance serveur, conçue selon la norme internationale **IEC 60364**. Elle permet aux ingénieurs électriciens et tableautiers d'évaluer les courants de charge, de dimensionner les câbles d'arrivée et de départs, de contrôler les chutes de tension, d'équilibrer les phases et de choisir le disjoncteur général approprié.
 
-1. **اجرای محلی:**
-   - کافی است مخزن را کلون کنید:
-     ```bash
-     git clone https://github.com/username/repository-name.git
-     ```
-   - سپس فایل `index.html` را با هر مرورگری باز کنید.
+### Caractéristiques Principales
+- **Support de 4 Langues :** Français, Anglais, Persan et Arabe avec prise en charge complète LTR/RTL et modale de sélection de langue à l'ouverture.
+- **Dimensionnement de Câble (Minimal & Conseillé) :** Calcul de la section réglementaire minimale ($I_z$) et proposition d'une section supérieure avec marge de sécurité thermique et limitation de la chute de tension.
+- **Section Individuelle par Récepteur :** Dimensionnement dédié pour chaque appareil selon sa longueur propre de câble.
+- **Mode Simple et Mode Avancé :** Le mode simple masque les paramètres complexes (température, pose, groupement, $\cos\varphi$, $\eta$, $k_s$, $k_d$) pour une saisie rapide avec des valeurs standardisées.
+- **Organisation par Rangée de Tableau :** Regroupement par rangée ou départ avec synthèse de puissance totale (kW), courant cumulé (A) et métrage total de câble (m).
+- **Équilibrage de Phase et Calcul Vectoriel du Neutre :** Algorithme d'équilibrage minimisant le déséquilibre entre phases et somme vectorielle des courants de phase pour le calcul exact du neutre.
+- **Sélection du Disjoncteur Général :** Choix automatique du calibre MCB ou MCCB jusqu'à 630A avec courbe de déclenchement (B, C, D) selon la proportion de moteurs.
+- **Rapport d'Impression et PDF :** Mise en page A4 optimisée avec tableaux techniques contrastés et date du jour.
+- **Effacement Rapide et Thèmes Clair/Sombre :** Bouton de réinitialisation sécurisé et mémorisation du thème d'affichage.
 
-2. **میزبانی روی GitHub Pages:**
-   - در تنظیمات مخزن گیت‌هاب به مسیر **Settings > Pages** بروید.
-   - بخش **Branch** را روی `main` و شاخه ریشه (`/root`) تنظیم کرده و Save کنید تا برنامه بلافاصله به صورت آنلاین در دسترس قرار گیرد.
-
----
-
-## 👤 توسعه‌دهنده (Author)
-
-- **مهدیار شاهپری**
-- ایمیل: [1shpr12@gmail.com](mailto:1shpr12@gmail.com)
-- تلگرام: [@mh2pr](https://t.me/mh2pr)
-- اینستاگرام: [@mhdr.shpr](https://instagram.com/mhdr.shpr)
-- لینکدین: [mhdrshpr](https://linkedin.com/in/mhdrshpr)
+### Utilisation
+1. Clonez le dépôt :
+   ```bash
+   git clone https://github.com/username/repository-name.git
+   ```
+2. Ouvrez `index.html` dans votre navigateur ou activez **GitHub Pages** dans les paramètres du dépôt.
 
 ---
 
-## 📄 مجوز (License)
+## 🇸🇦 العربية
 
-این پروژه به صورت متن‌باز منتشر شده و استفاده از آن با ذکر نام توسعه‌دهنده برای اهداف آموزشی، شخصی و مهندسی بلامانع است.
+### نظرة عامة
+حاسبة اللوحات الكهربائية الصناعية وتحديد مقاطع الكابلات هي تطبيق ويب مستقل وسريع يعمل بالكامل على متصفح المستخدم دون الحاجة إلى تثبيت أي برامج أو خوادم، وفقاً لمتطلبات المعيار الدولي **IEC 60364**. تتيح للمهندسين ومصممي التمديدات وفنيي تصنيع اللوحات حساب تيارات الدوائر، ومقاطع كابلات التغذية والأحمال، والتحقق من هبوط الجهد، وموازنة الأطوار الثلاثة، واختيار القواطع الوقائية.
+
+### أبرز المميزات
+- **دعم 4 لغات:** العربية، الفارسية، الإنجليزية، والفرنسية مع ضبط اتجاه النصوص (RTL/LTR) ونافذة منبثقة (Modal) لاختيار اللغة فور الدخول.
+- **تحديد مقطع الكابل (الحد الأدنى والمقترح):** حساب المقطع الأدنى المسموح به حرارياً ($I_z$) مع تقديم مقطع مقترح أعلى بدرجة كهامش أمان هندسي لبدء حركة المحركات وتقليل هبوط الجهد.
+- **مقطع كابل مخصص لكل مستهلك:** حساب مقطع الكابل الخاص بكل حمل على حدة اعتماداً على طول مساره المستقل.
+- **الوضع المبسط والمتقدم (Simple / Advanced):** إمكانية إخفاء المعايير التفصيلية (الحرارة، طريقة التمديد، معامل التجميع، معامل القدرة، الكفاءة، معاملي التزامن والطلب) لتسريع الحسابات بقيم قياسية معتمدة.
+- **تصنيف صفوف اللوحة الكهربائية:** تجميع الأحمال حسب الصف أو القاطع الفرعي وعرض جدول تراكمي للقدرة (kW)، التيار (A)، وإجمالي طول الكابلات (متر).
+- **توازن الأطوار والجمع الاتجاهي لتيار الحيادي:** خوارزمية ذكية لتوزيع الأحمال أحادية وثنائية الطور للوصول لأقل نسبة عدم اتزان، وجمع طوري دقيق لتيار خط الحيادي (Neutral).
+- **اختيار القاطع الوقائي الرئيسي:** تحديد السعة الاسمية القياسية لقواطع MCB و MCCB حتى 630A ونوع منحنى الفصل المغناطيسي (B و C و D).
+- **تقرير طباعة وتصدير PDF:** تصميم مخصص للطباعة على ورق A4 بجداول هندسية واضحة وتاريخ التقرير.
+- **مسح سريع وثيم داكن/فاتح:** زر لإعادة تعيين الجدول بضغطة واحدة، وحفظ خيارات المظهر واللغة محلياً.
+
+### طريقة التشغيل
+1. استنساخ المستودع:
+   ```bash
+   git clone https://github.com/username/repository-name.git
+   ```
+2. فتح ملف `index.html` مباشرة عبر أي متصفح، أو نشره عبر **GitHub Pages**.
+
+---
+
+## 📐 مبانی فرمول‌ها / Formulation Summary
+
+1. **Current Equations:**
+   - Single-Phase (230V): $I = \frac{P}{V_{ph} \cdot \cos\varphi \cdot \eta}$
+   - Two-Phase (400V): $I = \frac{P}{V_{LL} \cdot \cos\varphi \cdot \eta}$
+   - Balanced Three-Phase (400V): $I = \frac{P}{\sqrt{3} \cdot V_{LL} \cdot \cos\varphi \cdot \eta}$
+
+2. **Voltage Drop:**
+   $$\Delta U\% = \frac{b \cdot I \cdot L \cdot (R \cdot \cos\varphi + X \cdot \sin\varphi)}{V_{base}} \times 100$$
+   *(b = 1 for 3-Phase, b = 2 for 1-Phase; Cu: $\rho = 0.0225\ \Omega\cdot\text{mm}^2/\text{m}$, Al: $\rho = 0.034\ \Omega\cdot\text{mm}^2/\text{m}$, $X = 0.08\ \Omega/\text{km}$)*
+
+3. **Ampacity Condition:**
+   $$I_z' = I_z \times (k_t \times k_m \times k_g) \ge I_n \ge I_B \quad \text{and} \quad \Delta U\% \le \Delta U_{allow}\%$$
+
+---
+
+## 👤 توسعه‌دهنده / Author
+
+- **مهدیار شاهپری (Mahdyar Shahpari)**
+- Email: [1shpr12@gmail.com](mailto:1shpr12@gmail.com)
+- Telegram: [@mh2pr](https://t.me/mh2pr)
+- Instagram: [@mhdr.shpr](https://instagram.com/mhdr.shpr)
+- LinkedIn: [mhdrshpr](https://linkedin.com/in/mhdrshpr)
